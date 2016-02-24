@@ -112,13 +112,11 @@ server = $http.createServer(function (req, res) {
 	}
 });
 
-ifconfig.exec(function (ip) {
-	var url = 'http://' + ip + ':' + PORT;
-	server.listen(PORT, ip, function () {
-		console.log("Server running at " + url);
-		browser.exec(url, function () {
-			console.log("Browser started.");
-		});
+var url = 'http://127.0.0.1:' + PORT;
+server.listen(PORT, '0.0.0.0', function () {
+	console.log("Server running at " + url);
+	browser.exec(url, function () {
+		console.log("Browser started.");
 	});
 });
 
