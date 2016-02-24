@@ -694,7 +694,7 @@ function start()
 		checkdependence "server/src/node_modules/flock-0.1.3.js"
 		checkdependence "common/flock/flock-0.1.3.js"
 		checkdependence "client/www/jorder/jorder-1.2.1-min.js"
-		checkdependence "client/www/jquery/jquery-1.7.min.js"
+		checkdependence "client/www/jquery/jquery-1.8.0.js"
 
 		if [[ $dependence_error == true ]]; then
 			download_depedence_files
