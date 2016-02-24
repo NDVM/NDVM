@@ -6,7 +6,6 @@ var	$http = require('http'),
 		$url = require('url'),
 		$path = require('path'),
 		browser = require('./tools/browser').browser,
-		ifconfig = require('./tools/ifconfig').ifconfig,
 		file = require('./ajax/file'),
 
 		// modlules
