@@ -1,0 +1,152 @@
+/*//////////////////////////////////////////////////////////////////////////////
+// Brand CSS
+//
+// Application logo and colors can be customized through this file.
+//////////////////////////////////////////////////////////////////////////////*/
+
+/******************************
+GENERAL
+******************************/
+
+body {
+	background-color: #f3f3f3;
+	background-image: url('/image/wwidd_bg.png');
+	background-position: 0 0;
+}
+
+a {
+	color: #003e55;
+}
+
+input[type="text"] {
+	color: #444;
+	border-color: #003e55;
+}
+
+/******************************
+LIBRARY
+******************************/
+
+#library {
+	border-color: #303030;
+	background: #303030;
+}
+
+/******************************
+CONTROLS
+******************************/
+
+#kinds,
+#header,
+#footer {
+	background: #c4d2d7;
+}
+
+#footer div.progress > div.bar {
+	background: #9ab0b7;
+}
+
+#header {
+	border-color: #303030;
+}
+
+#switcher span.spinner {
+	background: url('/image/wwidd_spinners.gif') no-repeat -60px -20px;
+}
+
+/******************************
+GENERAL POPUP
+******************************/
+
+div.w_popup {
+	border-color: #616c71;
+	background: #f3f3f3;
+}
+
+div.w_popup > div.tree li > span.name {
+	color: #444;
+}
+
+div.w_popup > div.spinner {
+	background: url('/image/wwidd_spinners.gif') no-repeat -60px 0;
+}
+
+/******************************
+LIB SELECTOR POPUP
+******************************/
+
+div.w_popup > ul.libs > li.lib:hover {
+	background: #e0e0e0;
+}
+
+/******************************
+MEDIA ENTRY
+******************************/
+
+div.media,
+div.medium {
+	background: #f8f8f8;
+}
+
+div.medium.thumb:hover { 
+	border-color: #e0e0e0;
+	background: #e0e0e0;
+}
+
+div.medium.thumb > div.thumb { 
+	background: #f8f8f8;
+}
+
+div.medium.expanded {
+	border-color: #f0f0f0;
+	background: #f0f0f0;
+}
+
+div.medium.compact:hover {
+	background: #f0f0f0;
+}
+
+div.medium.thumb.playing,
+div.medium.expanded.playing {
+	border-color: #b1c3c9;
+	background: #b1c3c9;
+}
+
+div.medium.compact.playing {
+	background: #b1c3c9;
+}
+
+div.medium > div.file > span {
+	color: #444;
+}
+
+div.medium.playing > div.file > span,
+div.medium.playing > div.keywords span {
+	color: #181818;
+}
+
+div.medium > div.play > div.image {
+	top: 0px;
+	left: 28px;
+	width: 72px;
+	height: 72px;
+	background: url('/image/wwidd_sprites.png') no-repeat 0 0;
+}
+
+div.media.list > div.medium.expanded > div.play > div.image {
+	top: 12px;
+}
+
+div.medium.compact.playing > div.file > span {
+	background: url('/image/wwidd_sprites.png') no-repeat -80px 0;
+}
+
+div.medium.thumb > div.thumb > span.spinner,
+div.medium.expanded > div.thumb > span.spinner {
+	background: url('/image/wwidd_spinners.gif') no-repeat 0 0;
+}
+
+div.medium > div.keywords {
+	color: #444;
+}
+

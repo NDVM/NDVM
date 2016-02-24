@@ -1,0 +1,194 @@
+/******************************
+GENERAL
+******************************/
+
+body {
+	position: relative;
+	min-width: 750px;
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+}
+
+/******************************
+HEADER
+******************************/
+
+h1 {
+	display: inline-block; *zoom: 1;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 180px;
+	height: 72px;
+	margin: 0;
+}
+
+/******************************
+LIBRARY
+******************************/
+
+#library {
+	margin: 5px 0 0 0;
+	border: 3px solid;
+	border-radius: 5px; -moz-border-radius: 5px;
+}
+
+/******************************
+CONTROLS
+******************************/
+
+#header,
+#footer {
+	margin: 0;
+	padding: 5px;
+}
+
+#header {
+	position: relative;
+	border-top-left-radius: 3px; -moz-border-top-left-radius: 3px;
+	border-top-right-radius: 3px; -moz-border-top-right-radius: 3px;
+	border-bottom: 1px solid;
+}
+
+#header > span {
+	margin: 0 0 0 10px;
+}
+
+#header > span:first-child {
+	margin: 0;
+}
+
+#header span,
+#header a,
+#header select,
+#header button {
+	display: inline-block; *zoom: 1;
+	vertical-align: middle;		
+}
+
+/******************************
+CHECKER
+******************************/
+
+#checker .w_checker > input {
+	margin: 0;
+	padding: 0;
+}
+
+#checker .w_checker > input.mixed {
+	opacity: 0.5; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; *filter:alpha(opacity=50);
+}
+
+/******************************
+LIBRARY SWITCHER
+******************************/
+
+#switcher > span.switcher > span.caption {
+	margin: 0 5px 0 0;
+}
+
+#switcher span.spinner {
+	margin: 0 0 0 5px;
+	height: 16px;
+	width: 16px;
+}
+
+#switcher span.w_rootadd > span.caption {
+	height: 16px;
+	width: 16px;
+	margin: 3px 0;
+	background: url('/image/sprites.png') no-repeat 0 -140px;
+}
+
+#switcher span.w_rootadd[disabled="disabled"] > span.caption {
+	opacity: 0.5; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; *filter:alpha(opacity=50);
+}
+
+/******************************
+VIEW SELECTOR
+******************************/
+
+#views a {
+	width: 16px;
+	height: 16px;
+	margin: 0 10px 0 0;
+	vertical-align: middle;
+}
+
+#views a.tile {
+	background: url('/image/sprites.png') no-repeat 0 0;
+}
+
+#views a.list {
+	background: url('/image/sprites.png') no-repeat -20px 0;
+}
+
+/******************************
+PAGER
+******************************/
+
+#pager {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+#pager select {
+	margin: 0;
+}
+
+/******************************
+HINTS
+******************************/
+
+#footer {
+	position: relative;
+	height: 16px;
+	border-top: 1px solid;
+	border-bottom-left-radius: 3px; -moz-border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px; -moz-border-bottom-right-radius: 3px;
+}
+
+#footer > div.hints {
+	position: relative;
+	padding: 0 0 0 20px;
+	z-index: 2;
+}
+
+#footer > div.hints > span.icon,
+#footer > div.hints > a.next {
+	display: inline-block; *zoom: 1;
+	position: absolute;
+	top: 0;
+	width: 16px;
+	height: 16px;
+}
+
+#footer > div.hints > span.icon {
+	left: 0;
+	background: url('/image/sprites.png') no-repeat 0 -60px;	
+}
+
+#footer > div.hints > a.next {
+	right: 0;
+	background: url('/image/sprites.png') no-repeat -20px -100px;
+}
+
+/******************************
+PROGRESS
+******************************/
+
+#footer > div.progress {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+}
+
+#footer > div.progress > div.bar {
+	height: 100%;
+	width: 100%;
+}
+

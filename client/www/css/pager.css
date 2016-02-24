@@ -1,0 +1,52 @@
+/******************************
+GENERAL
+******************************/
+
+span.pager {
+	display: inline-block; *zoom: 1;
+	margin: 0 5px;
+}
+
+/* alignment */
+span.pager > a,
+span.pager > select {
+	vertical-align: middle;
+}
+
+/******************************
+BUTTONS
+******************************/
+
+span.pager > a {
+	display: inline-block; *zoom: 1;
+	width: 16px;
+	height: 16px;
+	margin: 0;
+	padding: 0;
+	color: transparent;
+}
+
+span.pager > a.first {
+	background: url('/image/sprites.png') no-repeat 0 -40px;
+}
+
+span.pager > a.prev {
+	background: url('/image/sprites.png') no-repeat -20px -40px;
+}
+
+span.pager > a.next {
+	background: url('/image/sprites.png') no-repeat -40px -40px;
+}
+
+span.pager > a.last {
+	background: url('/image/sprites.png') no-repeat -60px -40px;
+}
+
+/******************************
+DROPDOWN
+******************************/
+
+span.pager > span.w_dropdown {
+	width: 80px;
+}
+

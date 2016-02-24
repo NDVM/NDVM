@@ -1,0 +1,83 @@
+/******************************
+GENERAL POPUP
+******************************/
+
+div.w_popup {
+	position: absolute;
+	z-index: 100;
+	margin: 5px;
+	padding: 3px;
+	overflow: hidden;
+	text-align: center;
+	border: 2px solid;
+	border-radius: 5px; -moz-border-radius: 5px;
+	background: white;
+}
+
+/******************************
+CENTERED POPUP
+******************************/
+
+div.w_popup.centered {
+	position: fixed;
+	width: 300px;
+	box-shadow: 0 0 10px #444; -moz-box-shadow: 0 0 10px #444;
+}
+
+/******************************
+DROPDOWN POPUP
+******************************/
+
+div.w_popup.dropdown {
+	margin: 0;
+	border-width: 1px;
+	border-radius: 2px; -moz-border-radius: 2px;
+	text-align: left;
+}
+
+/******************************
+KINDS (CATEGORIES) POPUP
+******************************/
+
+div.w_popup > div.kinds {
+	width: 200px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+div.w_popup > div.kinds span.tag.display > input {
+	margin: 0 3px 0 0;
+}
+
+/******************************
+DIRECTORY SELECTOR POPUP
+******************************/
+
+div.w_popup > div.spinner {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	width: 16px;
+	height: 16px;
+}
+
+div.w_popup > span.title {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div.w_popup > table.status {
+	margin: 5px 0 0;
+}
+
+div.w_popup > div.tree > ul.root {
+	height: 200px;
+	margin: 5px 0;
+	background: white;
+	overflow-y: scroll;
+}
+
+div.w_popup > span.w_button {
+	margin: 5px;
+}
+
