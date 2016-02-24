@@ -14,7 +14,7 @@ thumb = function () {
 			
 	// create cache dir if doesn't exist
 	if (!$fs.existsSync(cachePath)) {
-		$fs.mkdirSync(cachePath, '0777');
+		$fs.mkdirSync(cachePath, '0755');
 	}
 	
 	self = {
