@@ -12,7 +12,7 @@ app.controls = function (controls, $, data) {
 				pages = controls.dropdown(),
 				pagesel = controls.select(),
 				page = 0,
-				items = 20,
+				items = 60,
 				max = 0;
 
 		//////////////////////////////
