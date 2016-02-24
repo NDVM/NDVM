@@ -8,32 +8,6 @@ db = function () {
 	var self,
 			name;
 	
-	// applies one patch
-	function apply(version, handler) {
-		self.nonQuery('patch.' + version + '.sql', function () {
-			console.log("DB/" + name + " - patched to version " + version);
-			if (handler) {
-				handler();
-			}
-		});
-	}
-	
-	// patches database to most recent version
-	function patch(handler) {
-		// getting current database version
-		var statement = "SELECT value FROM system WHERE key = 'version'";
-		self.query(statement, function (data) {
-			var version = (data[0] || {value: '0.1'}).value;
-			console.log("DB/" + name + " - version: " + version);
-			if (version < '0.2') {
-				apply('0.2', handler);
-			} else if (handler) {
-				handler();
-			}
-			return false;
-		});
-	}
-	
 	// creates database
 	function create(handler) {
 		console.log("DB - creating DB: " + name);
@@ -50,9 +24,6 @@ db = function () {
 			if (!sqlite.exists()) {
 				// creating new db
 				create(handler);
-			} else {
-				// patching existing db
-				patch(handler);
 			}
 		},
 
