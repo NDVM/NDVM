@@ -135,8 +135,8 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 		}
 	}
 
-	$('.tag.add.display a').live('click', onAdd);
-	$('.tag.add.edit input.focus').live('keyup', onChange);
+	$( document ).on('click', '.tag.add.display a', onAdd);
+	$( document ).on('keyup', '.tag.add.edit input.focus', onChange);
 
 	return controls;
 }(app.controls || {},

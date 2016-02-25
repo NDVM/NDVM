@@ -154,8 +154,8 @@ app.controls = function (controls, $) {
 	// applying handlers
 	// any non-dead folder can be expanded
 	// any folder can be selected
-	$('li.node:not(.dead) > span.toggle').live('click', onExpandCollapse);
-	$('li.node > span.name').live('click', onSelect);
+	$( document ).on('click', 'li.node:not(.dead) > span.toggle', onExpandCollapse);
+	$( document ).on('click', 'li.node > span.name', onSelect);
 	
 	return controls;
 }(app.controls,
