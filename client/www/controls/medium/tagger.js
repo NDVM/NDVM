@@ -132,7 +132,7 @@ app.controls = function (controls, $, jOrder, data) {
 			}
 			
 			// setting updated width
-			$tagger.width(full - left);
+			//$tagger.width(full - left); // removed to fix the layout on jquery 1.8.1 or newer
 
 			// updating state indicator
 			lastWidth = full;
