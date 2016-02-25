@@ -50,7 +50,7 @@ app.controls = function (controls, $) {
 	//////////////////////////////
 	// Static event bindings
 	
-	$('.w_button').live('click', function (event, popup) {
+	$( document ).on('click', '.w_button', function (event, popup) {
 		var $this = $(this).closest('.w_button'),
 				self = controls.lookup[$this.attr('id')],
 				onClick = self.onClick();

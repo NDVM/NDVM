@@ -95,7 +95,7 @@ app.controls = function (controls, $, services) {
 			.onChange()(i, event);
 	}
 	
-	$('ul.w_select > li:not(.selected) > .caption').live('click', onSelect);
+	$( document ).on('click', 'ul.w_select > li:not(.selected) > .caption', onSelect);
 	
 	return controls;
 }(app.controls || {},

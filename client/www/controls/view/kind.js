@@ -57,8 +57,8 @@ app.controls = function (controls, $, data) {
 		}
 	}
 
-	$('.kind').live('click', onClick);
-	$('.kind :checkbox').live('click', onChecked);
+	$( document ).on('click', '.kind', onClick);
+	$( document ).on('click', '.kind :checkbox', onChecked);
 
 	return controls;
 }(app.controls || {},

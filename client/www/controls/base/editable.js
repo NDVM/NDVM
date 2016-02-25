@@ -127,9 +127,9 @@ app.controls = function (controls, $) {
 		return false;
 	};
 
-	$('.editable')
-		.live('click', onClick)
-		.live('touchend', onClick);
+    $( document )
+        .on('click', '.editable', onClick)
+        .on('touchend', '.editable', onClick);
 	
 	return controls;
 }(app.controls || {},

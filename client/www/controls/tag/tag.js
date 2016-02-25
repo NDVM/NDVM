@@ -101,7 +101,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 		}
 	}
 	
-	$('.tag.edit input.focus').live('keydown', onNav);
+	$( document ).on('keydown', '.tag.edit input.focus', onNav);
 
 	return controls;
 }(app.controls || {},
