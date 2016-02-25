@@ -1,12 +1,12 @@
 /*!
- * QUnit 1.20.0
- * http://qunitjs.com/
+ * QUnit 1.22.0
+ * https://qunitjs.com/
  *
  * Copyright jQuery Foundation and other contributors
  * Released under the MIT license
- * http://jquery.org/license
+ * https://jquery.org/license
  *
- * Date: 2015-10-27T17:53Z
+ * Date: 2016-02-23T15:57Z
  */
 
 (function( global ) {
@@ -158,23 +158,24 @@ function is( type, obj ) {
 }
 
 var getUrlParams = function() {
-	var i, current;
+	var i, param, name, value;
 	var urlParams = {};
 	var location = window.location;
 	var params = location.search.slice( 1 ).split( "&" );
 	var length = params.length;
 
-	if ( params[ 0 ] ) {
-		for ( i = 0; i < length; i++ ) {
-			current = params[ i ].split( "=" );
-			current[ 0 ] = decodeURIComponent( current[ 0 ] );
+	for ( i = 0; i < length; i++ ) {
+		if ( params[ i ] ) {
+			param = params[ i ].split( "=" );
+			name = decodeURIComponent( param[ 0 ] );
 
 			// allow just a key to turn on a flag, e.g., test.html?noglobals
-			current[ 1 ] = current[ 1 ] ? decodeURIComponent( current[ 1 ] ) : true;
-			if ( urlParams[ current[ 0 ] ] ) {
-				urlParams[ current[ 0 ] ] = [].concat( urlParams[ current[ 0 ] ], current[ 1 ] );
+			value = param.length === 1 ||
+				decodeURIComponent( param.slice( 1 ).join( "=" ) ) ;
+			if ( urlParams[ name ] ) {
+				urlParams[ name ] = [].concat( urlParams[ name ], value );
 			} else {
-				urlParams[ current[ 0 ] ] = current[ 1 ];
+				urlParams[ name ] = value;
 			}
 		}
 	}
@@ -396,7 +397,7 @@ function verifyLoggingCallbacks() {
 				global.console.warn(
 					"QUnit." + loggingCallback + " was replaced with a new value.\n" +
 					"Please, check out the documentation on how to apply logging callbacks.\n" +
-					"Reference: http://api.qunitjs.com/category/callbacks/"
+					"Reference: https://api.qunitjs.com/category/callbacks/"
 				);
 			}
 		}
@@ -430,14 +431,6 @@ function verifyLoggingCallbacks() {
 				}
 				QUnit.pushFailure( error, filePath + ":" + linerNr );
 			}
-
-			//// Removed by Henrique Lechner - Chrome error:
-			//
-			// else {
-			//	QUnit.test( "global failure", extend(function() {
-			//		QUnit.pushFailure( error, filePath + ":" + linerNr );
-			//	}, { validTest: true } ) );
-			//}
 			return false;
 		}
 
@@ -451,7 +444,7 @@ QUnit.urlParams = urlParams;
 QUnit.isLocal = !( defined.document && window.location.protocol !== "file:" );
 
 // Expose the current QUnit version
-QUnit.version = "1.20.0";
+QUnit.version = "1.22.0";
 
 extend( QUnit, {
 
@@ -781,6 +774,7 @@ function setHook( module, hookName ) {
 }
 
 var focused = false;
+var priorityCount = 0;
 
 function Test( settings ) {
 	var i, l;
@@ -1052,21 +1046,23 @@ Test.prototype = {
 		return synchronize( run, priority );
 	},
 
-	push: function( result, actual, expected, message, negative ) {
+	pushResult: function( resultInfo ) {
+
+		// resultInfo = { result, actual, expected, message, negative }
 		var source,
 			details = {
 				module: this.module.name,
 				name: this.testName,
-				result: result,
-				message: message,
-				actual: actual,
-				expected: expected,
+				result: resultInfo.result,
+				message: resultInfo.message,
+				actual: resultInfo.actual,
+				expected: resultInfo.expected,
 				testId: this.testId,
-				negative: negative || false,
+				negative: resultInfo.negative || false,
 				runtime: now() - this.started
 			};
 
-		if ( !result ) {
+		if ( !resultInfo.result ) {
 			source = sourceFromStacktrace();
 
 			if ( source ) {
@@ -1077,8 +1073,8 @@ Test.prototype = {
 		runLoggingCallbacks( "log", details );
 
 		this.assertions.push({
-			result: !!result,
-			message: message
+			result: !!resultInfo.result,
+			message: resultInfo.message
 		});
 	},
 
@@ -1138,10 +1134,10 @@ Test.prototype = {
 	},
 
 	valid: function() {
-		var include,
-			filter = config.filter && config.filter.toLowerCase(),
+		var filter = config.filter,
+			regexFilter = /^(!?)\/([\w\W]*)\/(i?$)/.exec( filter ),
 			module = QUnit.urlParams.module && QUnit.urlParams.module.toLowerCase(),
-			fullName = ( this.module.name + ": " + this.testName ).toLowerCase();
+			fullName = ( this.module.name + ": " + this.testName );
 
 		function testInModuleChain( testModule ) {
 			var testModuleName = testModule.name ? testModule.name.toLowerCase() : null;
@@ -1171,7 +1167,23 @@ Test.prototype = {
 			return true;
 		}
 
-		include = filter.charAt( 0 ) !== "!";
+		return regexFilter ?
+			this.regexFilter( !!regexFilter[1], regexFilter[2], regexFilter[3], fullName ) :
+			this.stringFilter( filter, fullName );
+	},
+
+	regexFilter: function( exclude, pattern, flags, fullName ) {
+		var regex = new RegExp( pattern, flags );
+		var match = regex.test( fullName );
+
+		return match !== exclude;
+	},
+
+	stringFilter: function( filter, fullName ) {
+		filter = filter.toLowerCase();
+		fullName = fullName.toLowerCase();
+
+		var include = filter.charAt( 0 ) !== "!";
 		if ( !include ) {
 			filter = filter.slice( 1 );
 		}
@@ -1255,7 +1267,7 @@ function synchronize( callback, priority ) {
 	}
 
 	if ( priority ) {
-		priorityFill( callback );
+		config.queue.splice( priorityCount++, 0, callback );
 	} else {
 		config.queue.push( callback );
 	}
@@ -1264,22 +1276,6 @@ function synchronize( callback, priority ) {
 		process( last );
 	}
 }
-
-// Place previously failed tests on a queue priority line, respecting the order they get assigned.
-function priorityFill( callback ) {
-	var queue, prioritizedQueue;
-
-	queue = config.queue.slice( priorityFill.pos );
-	prioritizedQueue = config.queue.slice( 0, -config.queue.length + priorityFill.pos );
-
-	queue.unshift( callback );
-	queue.unshift.apply( queue, prioritizedQueue );
-
-	config.queue = queue;
-
-	priorityFill.pos += 1;
-}
-priorityFill.pos = 0;
 
 function saveGlobal() {
 	config.pollution = [];
@@ -1434,7 +1430,21 @@ QUnit.assert = Assert.prototype = {
 	},
 
 	// Exports test.push() to the user API
-	push: function( /* result, actual, expected, message, negative */ ) {
+	// Alias of pushResult.
+	push: function( result, actual, expected, message, negative ) {
+		var currentAssert = this instanceof Assert ? this : QUnit.config.current.assert;
+		return currentAssert.pushResult( {
+			result: result,
+			actual: actual,
+			expected: expected,
+			message: message,
+			negative: negative
+		} );
+	},
+
+	pushResult: function( resultInfo ) {
+
+		// resultInfo = { result, actual, expected, message, negative }
 		var assert = this,
 			currentTest = ( assert instanceof Assert && assert.test ) || QUnit.config.current;
 
@@ -1457,57 +1467,112 @@ QUnit.assert = Assert.prototype = {
 		if ( !( assert instanceof Assert ) ) {
 			assert = currentTest.assert;
 		}
-		return assert.test.push.apply( assert.test, arguments );
+
+		return assert.test.pushResult( resultInfo );
 	},
 
 	ok: function( result, message ) {
 		message = message || ( result ? "okay" : "failed, expected argument to be truthy, was: " +
 			QUnit.dump.parse( result ) );
-		this.push( !!result, result, true, message );
+		this.pushResult( {
+			result: !!result,
+			actual: result,
+			expected: true,
+			message: message
+		} );
 	},
 
 	notOk: function( result, message ) {
 		message = message || ( !result ? "okay" : "failed, expected argument to be falsy, was: " +
 			QUnit.dump.parse( result ) );
-		this.push( !result, result, false, message, true );
+		this.pushResult( {
+			result: !result,
+			actual: result,
+			expected: false,
+			message: message
+		} );
 	},
 
 	equal: function( actual, expected, message ) {
 		/*jshint eqeqeq:false */
-		this.push( expected == actual, actual, expected, message );
+		this.pushResult( {
+			result: expected == actual,
+			actual: actual,
+			expected: expected,
+			message: message
+		} );
 	},
 
 	notEqual: function( actual, expected, message ) {
 		/*jshint eqeqeq:false */
-		this.push( expected != actual, actual, expected, message, true );
+		this.pushResult( {
+			result: expected != actual,
+			actual: actual,
+			expected: expected,
+			message: message,
+			negative: true
+		} );
 	},
 
 	propEqual: function( actual, expected, message ) {
 		actual = objectValues( actual );
 		expected = objectValues( expected );
-		this.push( QUnit.equiv( actual, expected ), actual, expected, message );
+		this.pushResult( {
+			result: QUnit.equiv( actual, expected ),
+			actual: actual,
+			expected: expected,
+			message: message
+		} );
 	},
 
 	notPropEqual: function( actual, expected, message ) {
 		actual = objectValues( actual );
 		expected = objectValues( expected );
-		this.push( !QUnit.equiv( actual, expected ), actual, expected, message, true );
+		this.pushResult( {
+			result: !QUnit.equiv( actual, expected ),
+			actual: actual,
+			expected: expected,
+			message: message,
+			negative: true
+		} );
 	},
 
 	deepEqual: function( actual, expected, message ) {
-		this.push( QUnit.equiv( actual, expected ), actual, expected, message );
+		this.pushResult( {
+			result: QUnit.equiv( actual, expected ),
+			actual: actual,
+			expected: expected,
+			message: message
+		} );
 	},
 
 	notDeepEqual: function( actual, expected, message ) {
-		this.push( !QUnit.equiv( actual, expected ), actual, expected, message, true );
+		this.pushResult( {
+			result: !QUnit.equiv( actual, expected ),
+			actual: actual,
+			expected: expected,
+			message: message,
+			negative: true
+		} );
 	},
 
 	strictEqual: function( actual, expected, message ) {
-		this.push( expected === actual, actual, expected, message );
+		this.pushResult( {
+			result: expected === actual,
+			actual: actual,
+			expected: expected,
+			message: message
+		} );
 	},
 
 	notStrictEqual: function( actual, expected, message ) {
-		this.push( expected !== actual, actual, expected, message, true );
+		this.pushResult( {
+			result: expected !== actual,
+			actual: actual,
+			expected: expected,
+			message: message,
+			negative: true
+		} );
 	},
 
 	"throws": function( block, expected, message ) {
@@ -1563,7 +1628,12 @@ QUnit.assert = Assert.prototype = {
 			}
 		}
 
-		currentTest.assert.push( ok, actual, expectedOutput, message );
+		currentTest.assert.pushResult( {
+			result: ok,
+			actual: actual,
+			expected: expectedOutput,
+			message: message
+		} );
 	}
 };
 
@@ -1605,26 +1675,28 @@ QUnit.equiv = (function() {
 	var parents = [];
 	var parentsB = [];
 
+	var getProto = Object.getPrototypeOf || function( obj ) {
+
+		/*jshint proto: true */
+		return obj.__proto__;
+	};
+
 	function useStrictEquality( b, a ) {
 
-		/*jshint eqeqeq:false */
-		if ( b instanceof a.constructor || a instanceof b.constructor ) {
-
-			// To catch short annotation VS 'new' annotation of a declaration. e.g.:
-			// `var i = 1;`
-			// `var j = new Number(1);`
-			return a == b;
-		} else {
-			return a === b;
+		// To catch short annotation VS 'new' annotation of a declaration. e.g.:
+		// `var i = 1;`
+		// `var j = new Number(1);`
+		if ( typeof a === "object" ) {
+			a = a.valueOf();
 		}
+		if ( typeof b === "object" ) {
+			b = b.valueOf();
+		}
+
+		return a === b;
 	}
 
 	function compareConstructors( a, b ) {
-		var getProto = Object.getPrototypeOf || function( obj ) {
-
-			/*jshint proto: true */
-			return obj.__proto__;
-		};
 		var protoA = getProto( a );
 		var protoB = getProto( b );
 
@@ -1653,6 +1725,10 @@ QUnit.equiv = (function() {
 		return false;
 	}
 
+	function getRegExpFlags( regexp ) {
+		return "flags" in regexp ? regexp.flags : regexp.toString().match( /[gimuy]*$/ )[ 0 ];
+	}
+
 	var callbacks = {
 		"string": useStrictEquality,
 		"boolean": useStrictEquality,
@@ -1660,28 +1736,17 @@ QUnit.equiv = (function() {
 		"null": useStrictEquality,
 		"undefined": useStrictEquality,
 		"symbol": useStrictEquality,
+		"date": useStrictEquality,
 
-		"nan": function( b ) {
-			return isNaN( b );
-		},
-
-		"date": function( b, a ) {
-			return QUnit.objectType( b ) === "date" && a.valueOf() === b.valueOf();
+		"nan": function() {
+			return true;
 		},
 
 		"regexp": function( b, a ) {
-			return QUnit.objectType( b ) === "regexp" &&
+			return a.source === b.source &&
 
-				// The regex itself
-				a.source === b.source &&
-
-				// And its modifiers
-				a.global === b.global &&
-
-				// (gmi) ...
-				a.ignoreCase === b.ignoreCase &&
-				a.multiline === b.multiline &&
-				a.sticky === b.sticky;
+				// Include flags in the comparison
+				getRegExpFlags( a ) === getRegExpFlags( b );
 		},
 
 		// - skip when the property is a method of an instance (OOP)
@@ -1694,11 +1759,6 @@ QUnit.equiv = (function() {
 
 		"array": function( b, a ) {
 			var i, j, len, loop, aCircular, bCircular;
-
-			// b could be an object literal here
-			if ( QUnit.objectType( b ) !== "array" ) {
-				return false;
-			}
 
 			len = a.length;
 			if ( len !== b.length ) {
@@ -1738,11 +1798,6 @@ QUnit.equiv = (function() {
 		"set": function( b, a ) {
 			var aArray, bArray;
 
-			// `b` could be any object here
-			if ( QUnit.objectType( b ) !== "set" ) {
-				return false;
-			}
-
 			aArray = [];
 			a.forEach( function( v ) {
 				aArray.push( v );
@@ -1757,11 +1812,6 @@ QUnit.equiv = (function() {
 
 		"map": function( b, a ) {
 			var aArray, bArray;
-
-			// `b` could be any object here
-			if ( QUnit.objectType( b ) !== "map" ) {
-				return false;
-			}
 
 			aArray = [];
 			a.forEach( function( v, k ) {
@@ -1834,37 +1884,23 @@ QUnit.equiv = (function() {
 	};
 
 	function typeEquiv( a, b ) {
-		var prop = QUnit.objectType( a );
-		return callbacks[ prop ]( b, a );
+		var type = QUnit.objectType( a );
+		return QUnit.objectType( b ) === type && callbacks[ type ]( b, a );
 	}
 
 	// The real equiv function
-	function innerEquiv() {
-		var args = [].slice.apply( arguments );
-		if ( args.length < 2 ) {
+	function innerEquiv( a, b ) {
 
-			// End transition
+		// We're done when there's nothing more to compare
+		if ( arguments.length < 2 ) {
 			return true;
 		}
 
-		return ( (function( a, b ) {
-			if ( a === b ) {
+		// Require type-specific equality
+		return ( a === b || typeEquiv( a, b ) ) &&
 
-				// Catch the most you can
-				return true;
-			} else if ( a === null || b === null || typeof a === "undefined" ||
-					typeof b === "undefined" ||
-					QUnit.objectType( a ) !== QUnit.objectType( b ) ) {
-
-				// Don't lose time with error prone cases
-				return false;
-			} else {
-				return typeEquiv( a, b );
-			}
-
-		// Apply transition with (1..n) arguments
-		}( args[ 0 ], args[ 1 ] ) ) &&
-			innerEquiv.apply( this, args.splice( 1, args.length - 1 ) ) );
+			// ...across all consecutive argument pairs
+			( arguments.length === 2 || innerEquiv.apply( this, [].slice.call( arguments, 1 ) ) );
 	}
 
 	return innerEquiv;
@@ -2112,7 +2148,7 @@ QUnit.dump = (function() {
 				key: quote,
 				// function calls it internally, it's the content of the function
 				functionCode: "[code]",
-				// node calls it internally, it's an html attribute value
+				// node calls it internally, it's a html attribute value
 				attribute: quote,
 				string: quote,
 				date: quote,
@@ -2134,26 +2170,26 @@ QUnit.dump = (function() {
 // back compat
 QUnit.jsDump = QUnit.dump;
 
+// Deprecated
+// Extend assert methods to QUnit for Backwards compatibility
+(function() {
+	var i,
+		assertions = Assert.prototype;
+
+	function applyCurrent( current ) {
+		return function() {
+			var assert = new Assert( QUnit.config.current );
+			current.apply( assert, arguments );
+		};
+	}
+
+	for ( i in assertions ) {
+		QUnit[ i ] = applyCurrent( assertions[ i ] );
+	}
+})();
+
 // For browser, export only select globals
 if ( defined.document ) {
-
-	// Deprecated
-	// Extend assert methods to QUnit and Global scope through Backwards compatibility
-	(function() {
-		var i,
-			assertions = Assert.prototype;
-
-		function applyCurrent( current ) {
-			return function() {
-				var assert = new Assert( QUnit.config.current );
-				current.apply( assert, arguments );
-			};
-		}
-
-		for ( i in assertions ) {
-			QUnit[ i ] = applyCurrent( assertions[ i ] );
-		}
-	})();
 
 	(function() {
 		var i, l,
@@ -2214,13 +2250,13 @@ if ( typeof define === "function" && define.amd ) {
  * The original source of google-diff-match-patch is attributable and licensed as follows:
  *
  * Copyright 2006 Google Inc.
- * http://code.google.com/p/google-diff-match-patch/
+ * https://code.google.com/p/google-diff-match-patch/
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -2447,7 +2483,7 @@ QUnit.diff = ( function() {
 			return 0;
 		}
 		// Binary search.
-		// Performance analysis: http://neil.fraser.name/news/2007/10/09/
+		// Performance analysis: https://neil.fraser.name/news/2007/10/09/
 		pointermin = 0;
 		pointermax = Math.min( text1.length, text2.length );
 		pointermid = pointermax;
@@ -2480,7 +2516,7 @@ QUnit.diff = ( function() {
 			return 0;
 		}
 		// Binary search.
-		// Performance analysis: http://neil.fraser.name/news/2007/10/09/
+		// Performance analysis: https://neil.fraser.name/news/2007/10/09/
 		pointermin = 0;
 		pointermax = Math.min( text1.length, text2.length );
 		pointermid = pointermax;
@@ -3062,7 +3098,7 @@ QUnit.diff = ( function() {
 
 		// Start by looking for a single character match
 		// and increase length until no match is found.
-		// Performance analysis: http://neil.fraser.name/news/2010/11/04/
+		// Performance analysis: https://neil.fraser.name/news/2010/11/04/
 		best = 0;
 		length = 1;
 		while ( true ) {
@@ -3197,7 +3233,7 @@ QUnit.diff = ( function() {
 				// Upon reaching an equality, check for prior redundancies.
 				if ( countDelete + countInsert > 1 ) {
 					if ( countDelete !== 0 && countInsert !== 0 ) {
-						// Factor out any common prefixies.
+						// Factor out any common prefixes.
 						commonlength = this.diffCommonPrefix( textInsert, textDelete );
 						if ( commonlength !== 0 ) {
 							if ( ( pointer - countDelete - countInsert ) > 0 &&
@@ -3747,7 +3783,7 @@ function appendHeader() {
 
 	if ( header ) {
 		header.innerHTML = "<a href='" +
-			setUrl({ filter: undefined, module: undefined, testId: undefined }) +
+			escapeText( setUrl( { filter: undefined, module: undefined, testId: undefined } ) ) +
 			"'>" + header.innerHTML + "</a> ";
 	}
 }
@@ -3790,9 +3826,10 @@ function appendFilteredTest() {
 	if ( !testId || testId.length <= 0 ) {
 		return "";
 	}
-	return "<div id='qunit-filteredTest'>Rerunning selected tests: " + testId.join(", ") +
+	return "<div id='qunit-filteredTest'>Rerunning selected tests: " +
+		escapeText( testId.join(", ") ) +
 		" <a id='qunit-clearFilter' href='" +
-		setUrl({ filter: undefined, module: undefined, testId: undefined }) +
+		escapeText( setUrl( { filter: undefined, module: undefined, testId: undefined } ) ) +
 		"'>" + "Run all tests" + "</a></div>";
 }
 
@@ -4031,7 +4068,8 @@ QUnit.log(function( details ) {
 			message += "<tr class='test-message'><th>Message: </th><td>" +
 				"Diff suppressed as the depth of object is more than current max depth (" +
 				QUnit.config.maxDepth + ").<p>Hint: Use <code>QUnit.dump.maxDepth</code> to " +
-				" run with a higher max depth or <a href='" + setUrl({ maxDepth: -1 }) + "'>" +
+				" run with a higher max depth or <a href='" +
+				escapeText( setUrl( { maxDepth: -1 } ) ) + "'>" +
 				"Rerun</a> without max depth.</p></td></tr>";
 		}
 
@@ -4042,7 +4080,7 @@ QUnit.log(function( details ) {
 
 		message += "</table>";
 
-	// this occours when pushFailure is set and we have an extracted stack trace
+	// this occurs when pushFailure is set and we have an extracted stack trace
 	} else if ( !details.result && details.source ) {
 		message += "<table>" +
 			"<tr class='test-source'><th>Source: </th><td><pre>" +
