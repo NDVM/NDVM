@@ -16,7 +16,7 @@ var	$http = require('http'),
 		system = require('./ajax/system'),
 		
 		// environmental variables
-		PORT = 8124,
+		PORT = 7519,
 		DEBUG = false,
 		
 		// server object
