@@ -24,6 +24,8 @@ db = function () {
 			if (!sqlite.exists()) {
 				// creating new db
 				create(handler);
+			} else if (handler) {
+				handler();
 			}
 		},
 
