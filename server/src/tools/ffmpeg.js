@@ -126,8 +126,8 @@ ffmpeg = function () {
 			'-i', inPath,
 			'-f', 'image2',
 			'-vframes', count || 1,
-			'-s', 'sqcif',
 			'-aspect', '4:3',
+			'-filter:vf', 'scale=\'if(gt(a,4/3),128,-1)\':\'if(gt(a,4/3),-1,96)\',pad=w=128:h=97:x=(ow-iw)/2:y=(oh-ih)/2:color=black',
 			'-ss', '15',
 			outPath
 		] : [
