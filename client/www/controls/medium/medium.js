@@ -212,10 +212,8 @@ app.controls = function (controls, $, services, data) {
 	//////////////////////////////
 	// Event bindings
 
-	$('div.thumb, div.file, div.play', $('div.medium'))
-		.live('click', onClick);
-	$('div.check > :checkbox')
-		.live('click', onChecked);
+	$( document ).on('click', 'div.medium div.thumb, div.file, div.play', onClick);
+	$( document ).on('click', 'div.check > :checkbox', onChecked);
 	
 	return controls;
 }(app.controls || {},
