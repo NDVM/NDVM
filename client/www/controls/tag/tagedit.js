@@ -223,10 +223,10 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 		}
 	}
 	
-	var context = $('.tagedit.edit');
-	$('.remove', context).live('click', onRemove);
-	$('.explode', context).live('click', onExplode);
-	$('input', context).live('keyup', onChange);
+	//var context = $('.tagedit.edit');
+	$( document ).on('click', '.tagedit.edit .remove', onRemove);
+	$( document ).on('click', '.tagedit.edit .explode', onExplode);
+	$( document ).on('keyup', '.tagedit.edit input', onChange);
 
 	return controls;
 }(app.controls || {},
