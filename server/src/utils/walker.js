@@ -8,6 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, process, console */
 var	$fs = require('fs'),
+	debugMsg = require('./messager').debugMsg,
 
 // - dirHandler: called for each directory
 // - fileHandler: called for each file
@@ -30,7 +31,7 @@ walker = function (dirHandler, fileHandler, options) {
 			
 			// recursive inner function
 			// - relative: path relative to root
-			console.log("WALKER - walking path: " + root + (hasMaxDepth ?  ", max depth: " + maxDepth : ""));
+			debugMsg("WALKER - walking path: " + root + (hasMaxDepth ?  ", max depth: " + maxDepth : ""));
 			
 			(function walk(relative, depth) {
 				if (++fileCount % 16 === 0) {

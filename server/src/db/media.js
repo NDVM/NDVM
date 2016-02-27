@@ -3,7 +3,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
 var	entity = require('../db/entity').entity,
-		db = require('../db/db').db,
+	db = require('../db/db').db,
+	debugMsg = require('../utils/messager').debugMsg,
 
 // constructs a where clause that will retrieve
 // media records filtered by tags
@@ -46,7 +47,7 @@ media = function (mediaid) {
 			"JOIN roots USING (rootid)",
 			"WHERE mediaid =", mediaid
 		].join(" ");
-		console.log(statement);
+		debugMsg(statement);
 		db.query(statement, handler);
 	};
 	
@@ -57,7 +58,7 @@ media = function (mediaid) {
 			"JOIN roots USING (rootid)",
 			"WHERE mediaid IN", "('" + mediaids.join("','") + "')"
 		].join(" ");
-		console.log(statement);
+		debugMsg(statement);
 		db.query(statement, handler);
 	};
 	

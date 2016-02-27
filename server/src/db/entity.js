@@ -5,6 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
 var	db = require('../db/db').db,
+	debugMsg = require('../utils/messager').debugMsg,
 
 // escapes quotes in SQL statements by duplicating them
 quotes = function (text) {
@@ -62,7 +63,7 @@ entity = {
 			where.length ? ["WHERE", where.join(" AND ")].join(" ") : ""
 		].join(" ");
 		
-		console.log(statement);
+		debugMsg(statement);
 		db.query(statement, handler);
 		
 		return this;
@@ -81,7 +82,7 @@ entity = {
 			"WHERE", this.key, "IN", "('" + keys.join("','") + "')"
 		].join(" ");
 
-		console.log(statement);
+		debugMsg(statement);
 		db.query(statement, handler);
 		
 		return this;		
@@ -99,7 +100,7 @@ entity = {
 			["(", pair.values.join(","), ")"].join("")
 		].join(" ");
 		
-		console.log(statement);
+		debugMsg(statement);
 		db.nonQuery(statement, handler);
 		
 		return this;
@@ -118,7 +119,7 @@ entity = {
 			where.length ? ["WHERE", where.join(" AND ")].join(" ") : ""
 		].join(" ");
 
-		console.log(statement);
+		debugMsg(statement);
 		db.nonQuery(statement, handler);
 		
 		return this;
@@ -153,7 +154,7 @@ entity = {
 		statement.push("COMMIT");
 		
 		if (counter > 0) {
-			console.log("ENTITY - multiSet SQL statement built: " + statement.length + " lines");
+			debugMsg("ENTITY - multiSet SQL statement built: " + statement.length + " lines");
 			db.nonQuery(statement.join(";\n"), handler);
 		} else if (handler) {
 			handler();
@@ -173,7 +174,7 @@ entity = {
 			where.join(" AND ")
 		].join(" ");
 
-		console.log(statement);
+		debugMsg(statement);
 		db.nonQuery(statement, handler);
 
 		return this;		

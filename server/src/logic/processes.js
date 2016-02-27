@@ -10,6 +10,7 @@ var	thumb = require('../logic/thumb').thumb,
 		media = require('../db/media').media,
 		queue = require('../utils/queue').queue,
 		ffmpeg = require('../tools/ffmpeg').ffmpeg,
+		debugMsg = require('../utils/messager').debugMsg,
 
 processes,
 
@@ -77,7 +78,7 @@ processes = {
 					entry = {rootid: tmp[0], mediaid: tmp[1], root: tmp[2], path: tmp[3], hash: tmp[4], keywords: {}};
 			thumb.generate(entry.root + entry.path, entry.hash, function (data) {
 				if (typeof data !== 'undefined') {
-					console.log("PROCESSES - generated thumbnail: " + entry.hash);
+					debugMsg("PROCESSES - generated thumbnail: " + entry.hash);
 					entry.keywords = filter(data);
 				}
 				finish(entry);

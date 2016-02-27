@@ -6,6 +6,7 @@ var	$path = require('path'),
 		$media = require('../db/media'),
 		quotes = require('../db/entity').quotes,
 		db = require('../db/db').db,
+		debugMsg = require('../utils/messager').debugMsg,
 
 library = function () {
 	var self = {
@@ -17,7 +18,7 @@ library = function () {
 				"WHERE rootid =", rootid
 			].join(" ");
 			
-			console.log(statement);
+			debugMsg(statement);
 			db.query(statement, handler);
 		},
 		
@@ -41,7 +42,7 @@ library = function () {
 				filter ? $media.filter(filter, 'media') : ""
 			].join(" ");
 			
-			console.log(statement);
+			debugMsg(statement);
 			db.query(statement, handler);
 		},
 		
@@ -60,7 +61,7 @@ library = function () {
 				'COMMIT;'
 			].join('\n');
 			
-			console.log(statement);
+			debugMsg(statement);
 			db.nonQuery(statement, handler);			
 		},
 		
@@ -157,7 +158,7 @@ library = function () {
 			
 			if (count > 0) {
 				// executing statement
-				console.log("LIBRARY - ingest SQL statement built: " + statement.length + " lines");	
+				debugMsg("LIBRARY - ingest SQL statement built: " + statement.length + " lines");	
 				db.nonQueryPiped(statement.join('\n'), handler);
 			} else {
 				handler();

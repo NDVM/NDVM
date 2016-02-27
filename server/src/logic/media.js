@@ -7,6 +7,7 @@
 var	vlc = require('../tools/vlc').vlc,
 		entity = require('../db/media').media,
 		thumbs = require('../logic/thumbs').thumbs,
+		debugMsg = require('../utils/messager').debugMsg,
 		
 media = function (mediaid) {
 	var self = {
@@ -22,9 +23,9 @@ media = function (mediaid) {
 				thumbs.generate([mediaid]);
 				// starting playback
 				var path = data[0].root + data[0].path;
-				console.log("MEDIA - starting playback of file: " + path);
+				debugMsg("MEDIA - starting playback of file: " + path);
 				vlc.exec(path, function (path) {
-					console.log("MEDIA - playback finished or interrupted");
+					debugMsg("MEDIA - playback finished or interrupted");
 				});
 				// not waiting for playback to finish
 				if (handler) {
@@ -36,7 +37,7 @@ media = function (mediaid) {
 		
 		// rates media file
 		rate: function (rating, handler) {
-			console.log("MEDIA - rating media: " + mediaid + " at: " + rating);
+			debugMsg("MEDIA - rating media: " + mediaid + " at: " + rating);
 			entity(mediaid).set({rating: rating}, handler);
 			return self;
 		}

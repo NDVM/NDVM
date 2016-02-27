@@ -5,6 +5,7 @@
 var	$path = require('path'),
 		file = require('./file'),
 		envelope = require('./envelope').envelope,
+		debugMsg = require('../utils/messager').debugMsg,
 		library = require('../logic/library').library;
 
 // runs the endpoint
@@ -30,7 +31,7 @@ function run(endpoint, query, res) {
 				throw "Missing parameters";
 			}
 			library.set(query.name, function (data) {
-				console.log("library changed");
+				debugMsg("library changed");
 				ok(data);
 			});
 		});

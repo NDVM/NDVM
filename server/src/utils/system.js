@@ -6,8 +6,9 @@
 /*global require, exports, console */
 var	$os = require('os'),
 	$fs = require('fs'),
-		walker = require('./walker').walker,
-            flock = require('flock-0.1.3').flock,
+	walker = require('./walker').walker,
+	flock = require('flock-0.1.3').flock,
+	debugMsg = require('./messager').debugMsg,
 
 os = $os.type().split(/[^A-Za-z0-9]+/)[0].toLowerCase(),
 		
@@ -49,7 +50,7 @@ system = {
 					walker(handler).walkSync(root, 2);
 				}
 			} catch (e_exist) {
-				console.log("Ignored path: " + '/' + paths[i]);
+				debugMsg("Ignored path: " + '/' + paths[i]);
 			}
 		}
 		
@@ -63,7 +64,7 @@ system = {
 	}
 };
 
-console.log("SYSTEM - OS type: " + os);
+//console.log("SYSTEM - OS type: " + os);
 
 exports.system = system;
 

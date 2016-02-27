@@ -8,6 +8,7 @@ var	library = require('../db/library').library,
 		entity = require('../db/root').root,
 		walker = require('../utils/walker').walker,
 		processes = require('../logic/processes').processes,
+		debugMsg = require('../utils/messager').debugMsg,
 		
 // - path: root path
 root = function (path) {
@@ -41,12 +42,12 @@ root = function (path) {
 		
 		// ingests suitable files into the library
 		add: function (handler) {
-			console.log("ROOT - initializing...");
+			debugMsg("ROOT - initializing...");
 			entity.add({'path': path}, function () {
 				entity.get({'path': path}, function (data) {
 					var rootid = data[0].rootid;
-					console.log("ROOT - initialized: " + rootid);
-					console.log("ROOT - ingesting video metadata into library");
+					debugMsg("ROOT - initialized: " + rootid);
+					debugMsg("ROOT - ingesting video metadata into library");
 					self.scan(function (metadata, count) {
 						// ending request and returning when nothing found
 						if (count === 0) {

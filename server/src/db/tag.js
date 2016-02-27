@@ -6,6 +6,7 @@ var	$media = require('../db/media'),
 		db = require('../db/db').db,
 		entity = require('../db/entity').entity,
 		clause = require('../db/entity').clause,
+		debugMsg = require('../utils/messager').debugMsg,
 
 tag = function () {
 	var base = Object.create(entity, {kind: {value: 'tags'}}),
@@ -40,7 +41,7 @@ tag = function () {
 		]).join(" ");
 				
 		if (handler) {
-			console.log(statement);
+			debugMsg(statement);
 			db.nonQuery(statement, handler);
 			return self;
 		} else {
@@ -91,7 +92,7 @@ tag = function () {
 			"COMMIT"
 		]).join(";\n");
 		
-		console.log(statement);
+		debugMsg(statement);
 		db.nonQuery(statement, handler);
 	};
 	
@@ -120,7 +121,7 @@ tag = function () {
 		].join(" ");
 
 		if (handler) {
-			console.log(statement);
+			debugMsg(statement);
 			db.nonQuery(statement, handler);
 			return self;
 		} else {
@@ -157,7 +158,7 @@ tag = function () {
 			"END TRANSACTION"
 		].join(";\n");
 		
-		console.log(statement);
+		debugMsg(statement);
 		db.nonQuery(statement, handler);
 	};
 	

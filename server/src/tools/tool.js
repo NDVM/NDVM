@@ -5,7 +5,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, Buffer, console */
 var $child_process = require('child_process'),
-		system = require('../utils/system').system,
+	system = require('../utils/system').system,
+	debugMsg = require('../utils/messager').debugMsg,
 
 tool = {
 	// line break string depending on OS
@@ -48,7 +49,7 @@ tool = {
 		}
 
 		// starting tool
-		console.log(["TOOL - executing:", that.executable, args ? args.join(" ") : ""].join(" "));
+		debugMsg(["TOOL - executing:", that.executable, args ? args.join(" ") : ""].join(" "));
 		that.child = $child_process.spawn(that.executable, args);
 
 		// callback

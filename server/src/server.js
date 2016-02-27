@@ -40,6 +40,8 @@ var	$http = require('http'),
 	}
 }());
 
+module.exports.DEBUG = DEBUG;
+
 // creating server object
 server = $http.createServer(function (req, res) {
 	var	url = $url.parse(req.url, true),

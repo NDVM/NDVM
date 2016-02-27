@@ -10,6 +10,7 @@ var	$fs = require('fs'),
 		tool = require('./tool').tool,
 		parser = require('../utils/parser').parser,
 		tempFile = 'temp.sql',
+		debugMsg = require('../utils/messager').debugMsg,
 
 sqlite = function () {
 	var db = 'default',
@@ -96,7 +97,7 @@ sqlite = function () {
 
 		if (statement.match(/^.+\.sql$/ig)) {
 			// reading statement from file
-			console.log("SQLITE - reading SQL command from file: " + statement);
+			debugMsg("SQLITE - reading SQL command from file: " + statement);
 			statement = $fs.readFileSync('../db/' + statement);
 		}
 		
@@ -108,7 +109,7 @@ sqlite = function () {
 		function onComplete(code, data) {
 			switch (code) {
 			case SQLITE_OK:
-				console.log("SQLITE - retrieved " + (data ? data.length : 0) + " records.");
+				debugMsg("SQLITE - retrieved " + (data ? data.length : 0) + " records.");
 				if (handler) {
 					handler(data);
 				}
@@ -119,7 +120,7 @@ sqlite = function () {
 					throw "Database or table still locked after " + retries + " retries, query failed";
 				} else {
 					retries++;
-					console.log("SQLITE - database or table locked, re-running query (" + retries + "/" + RETRY_COUNT + ")");
+					debugMsg("SQLITE - database or table locked, re-running query (" + retries + "/" + RETRY_COUNT + ")");
 					setTimeout(function () {
 						tool.exec.call(self, args, onComplete, true);
 					}, RETRY_DELAY);
@@ -127,7 +128,7 @@ sqlite = function () {
 				break;
 			default:
 				console.log("SQLITE - query failed");
-				console.log(statement);
+				debugMsg(statement);
 				if (handler) {
 					handler();
 				}
