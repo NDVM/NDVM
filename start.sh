@@ -3,7 +3,7 @@
 ##
 ## start.sh developed by Henrique Lechner < hlechner Θ gmail · com > - 2016
 ##
-## Part of Wwidd software: https://github.com/wwidd/wwidd
+## Part of NDVM software: https://github.com/NDVM/NDVM
 ##
 
 ## configurable variables:
@@ -27,31 +27,31 @@ error_msg="$bash_red""[ERROR]""$bash_reset"
 ok_msg="$bash_blue""[OK]""$bash_reset"
 info_msg="$bash_purple""[INFO]""$bash_reset"
 
-## check the wwidd path
+## check the ndvm path
 startsh_path=$(readlink -f "$BASH_SOURCE")
-wwidd_path=$(dirname "$startsh_path")
+ndvm_path=$(dirname "$startsh_path")
 
 ## default variables values
 dependence_error=false
 ignore_dependence_check=false
 ignore_terminal_check=false
 nodejs_debug=false
-wwidd_debug=false
+ndvm_debug=false
 node_command="node"
 
 startsh_args="$@"
 
 #####
-### execwwidd(): execute the wwidd
+### execndvm(): execute the NDVM
 #####
-function execwwidd()
+function execndvm()
 {
-	if [[ -e "$wwidd_path/server/src/server.js" ]]; then
+	if [[ -e "$ndvm_path/server/src/server.js" ]]; then
 		## Enter on right folder
-		cd "$wwidd_path""/server/src"
+		cd "$ndvm_path""/server/src"
 
 		## messages
-		echo -e "$ok_msg Executing wwidd ..."
+		echo -e "$ok_msg Executing NDVM ..."
 		echo -e "$ok_msg Node.JS return:"
 		echo
 
@@ -59,11 +59,11 @@ function execwwidd()
 		if [[ $nodejs_debug == true ]]; then
 			node_args="debug $node_args"
 		fi
-		if [[ $wwidd_debug == true ]]; then
+		if [[ $ndvm_debug == true ]]; then
 			node_args="$node_args debug"
 		fi
 
-		## executing wwidd
+		## executing NDVM
 		$node_command $node_args
 
 	else
@@ -107,243 +107,6 @@ function checknvm()
 			echo "===> Try: nvm install $nodejs_version_recommended"
 			checknode
 		fi
-	fi
-}
-
-
-#####
-### copy_file(): copy the needed files from the zip file already downloaded
-#####
-function copy_file()
-{
-	if [[ "$1" == "server/src/node_modules/flock-0.1.3.js" ]]; then
-		file_from_zip="Wwidd/common/flock/flock-0.1.3.js"
-	else
-		file_from_zip="Wwidd/$1"
-	fi
-
-	checkapp true unzip
-	if [[ "$?" == 0 ]]; then
-		file_path=$(dirname "$wwidd_path/$1")
-
-		## create the directory if it doesn't exist
-		if [[ ! -a "$file_path" ]]; then
-			mkdir_msg=$( mkdir -p "$file_path" 2>&1 )
-			if [[ "$?" != 0 ]]; then
-				echo -e "$error_msg couldn't create the directory:"
-				echo "$mkdir_msg"
-				exit 1
-			fi
-		fi
-
-		## extract the files from zip
-		if [[ -w "$file_path" ]]; then
-			unzip -p "$zipfile_tmp" "$file_from_zip" > "$wwidd_path/$1"
-		else
-			echo -e "$error_msg there is not permission to extract the file! check your wwidd file permissions."
-			exit 1
-		fi
-	else
-		return 1
-	fi
-}
-
-
-#####
-### download_depedence_files(): download the dependences
-#####
-function download_depedence_files()
-{
-	zipfile_base_url="http://wwidd.com/files/Wwidd046Ubu.zip"
-	zipfile_url="http://wwidd.com/files/Wwidd046Ubu.zip"
-	sha256zip="c4c8e4c086550b1ba730323fe3d1b6daba0c1260d80331add558f5ea9a103953"
-	md5zip="6327537aaefef94114992eb9adb05248"
-
-	echo "===> Check the wwidd wiki for further details: https://github.com/wwidd/wwidd/wiki"
-	echo
-
-	## ask if want to download it through the script
-	while [[ "$download" != "Yes" ]]; do
-		echo "Do you want to try to download the files from internet? [Y/n]"
-		read download_try
-		case "$download_try" in
-			n|N|No|NO|nO)
-				return 1
-				;;
-			y|Y|Yes|YES|YeS|yES|yeS|yEs|"")
-				download="Yes"
-				;;
-			*)
-				echo "Invalid Option!"
-				;;
-		esac
-	done
-
-	## check for wget,curl or fetch
-	if [[ ! "$download_cmd" ]]; then
-	        checkapp false wget && download_cmd="wget"
-	fi
-
-	if [[ ! "$download_cmd" ]]; then
-	        checkapp false curl && download_cmd="curl"
-	fi
-
-	if [[ ! "$download_cmd" ]]; then
-	        checkapp false fetch && download_cmd="fetch"
-	fi
-
-	if [[ ! "$download_cmd" ]]; then
-		checkapp true "wget" "wget"
-		return 1
-	fi
-
-
-	## do the connection check
-	case "$download_cmd" in
-	        wget)
-		        wget -q --tries=2 --timeout=7 --spider "$zipfile_base_url" > /dev/null
-		        connection_check="$?"
-		        ;;
-		curl)
-		        curl -s --retry 2 --connect-timeout 7 "$zipfile_base_url" -o /dev/null
-		        connection_check="$?"
-		        ;;
-		fetch)
-		        fetch -q --timeout=7 "$zipfile_base_url" -o /dev/null
-		        connection_check="$?"
-		        ;;
-	esac
-
-	## if dont pass the connection check show it and return 1
-	if [[ $connection_check != 0 ]]; then
-		echo -e "$error_msg Couldn't connect to wwidd server!"
-		echo "===> Check the connection and try again or copy manually the file."
-		echo "===> further instructions could be found on wwidd wiki: https://github.com/wwidd/wwidd/wiki"
-		return 1
-	fi
-
-
-	## create temp file
-	checkapp false mktemp
-	if [[ $? == 0 ]]; then
-		zipfile_tmp=$(mktemp "/tmp/wwidd.zip.XXXXXXXXXXX")
-	else
-		zipfile_tmp="/tmp/wwidd.zip.$RANDOM$RANDOM"
-		:> "$zipfile_tmp"
-	fi
-
-	## download the zipfile
-	case "$download_cmd" in
-		wget)
-			echo "downloading from: $zipfile_url..."
-			wget -q "$zipfile_url" -O "$zipfile_tmp" > /dev/null 2>&1
-			if [[ "$?" != 0 ]]; then
-				echo -e "$error_msg Wooops! something wrong happened on the download file process."
-				rm -f "$zipfile_tmp"
-				return 1
-			fi
-			;;
-		curl)
-			echo "downloading from: $zipfile_url..."
-			curl -s "$zipfile_url" -o "$zipfile_tmp" > /dev/null 2>&1
-			if [[ "$?" != 0 ]]; then
-				echo -e "$error_msg Wooops! something wrong happened on the download file process."
-				rm -f "$zipfile_tmp"
-				return 1
-			fi
-			;;
-		fetch)
-			echo "downloading from: $zipfile_url..."
-			fetch -q "$zipfile_url" -o "$zipfile_tmp" > /dev/null 2>&1
-			if [[ "$?" != 0 ]]; then
-				echo -e "$error_msg Wooops! something wrong happened on the download file process."
-				rm -f "$zipfile_tmp"
-				return 1
-			fi
-			;;
-    		*)
-			echo -e "$error_msg Wooops! something wrong happened on the download file process."
-			rm -f "$zipfile_tmp"
-			return 1
-			;;
-	esac
-
-
-	if [[ -s "$zipfile_tmp" ]]; then
-		##check for sha256sum
-		if [[ ! "$checksum" ]]; then
-			checkapp false sha256sum && checksum="sha256sum"
-		fi
-
-		##check for sha256 (freebsd)
-		if [[ ! "$checksum" ]]; then
-			checkapp false sha256 && checksum="sha256"
-		fi
-
-		##check for md5sum
-		if [[ ! "$checksum" ]]; then
-			checkapp false md5sum && checksum="md5sum"
-		fi
-
-		##check for md5 (freebsd)
-		if [[ ! "$checksum" ]]; then
-			checkapp false md5 && checksum="md5"
-		fi
-
-	else
-		echo -e "$error_msg Wooops! something wrong happened on the temporary file creation."
-		if [[ "$zipfile_tmp" ]]; then
-			rm -f "$zipfile_tmp"
-		fi
-		return 1
-	fi
-
-
-
-	## check the checksum
-	if [[ "$checksum" == "sha256sum" ]] || [[ "$checksum" == "sha256" ]]; then
-		printf "$sha256zip  $zipfile_tmp" | $checksum -c > /dev/null 2>&1
-		checksum_result="$?"
-	elif [[ "$checksum" == "md5sum" ]] || [[ "$checksum" == "md5" ]]; then
-		printf "$md5zip  $zipfile_tmp" | $checksum -c > /dev/null 2>&1
-		checksum_result="$?"
-	else
-		echo -e "$error_msg Not found sha256 or md5 checksum on system!"
-		rm -f "$zipfile_tmp"
-		return 1
-	fi
-
-
-	## checksum on zip file match?
-	if [[ "$checksum_result" != 0 ]]; then
-		echo -e "$error_msg Checksum of the downloaded file doesn't match!"
-		rm -f "$zipfile_tmp"
-		return 1
-	fi
-
-
-	## copy files from zip
-	for archive_file in "${dependence_not_found[@]}"
-	do
-		copy_file "$archive_file"
-
-		## check is file is installed
-		if [[ -e "$wwidd_path/$archive_file" ]]; then
-			echo -e "$ok_msg File downloaded: $archive_file"
-			dependence_not_found=( "${dependence_not_found[@]/$archive_file}" )
-		fi
-
-	done
-
-	## if all dependence are installed change depedence_error status
-	if [[ ! "$dependence_not_found" ]]; then
-		dependence_error=false
-	fi
-
-	## remove the temp file
-	if [[ "$zipfile_tmp" ]]; then
-		rm -f "$zipfile_tmp"
-		return 0
 	fi
 }
 
@@ -516,9 +279,9 @@ function checknode()
 function checkdependence()
 {
 	## messages
-	depedence_msg="$bash_und_yellow""$wwidd_path/$1""$bash_reset"
+	depedence_msg="$bash_und_yellow""$ndvm_path/$1""$bash_reset"
 
-	if [[ ! -e "$wwidd_path/$1" ]]; then
+	if [[ ! -e "$ndvm_path/$1" ]]; then
 		echo -e "$error_msg dependence: $depedence_msg does not exist!"
 
 		dependence_error=true
@@ -592,14 +355,14 @@ function display_help()
 	echo "Usage: $0 [options]"
 	echo
 	echo "Options:"
-	echo "   -d, debug, --wwidd-debug       activate the Wwidd debug"
+	echo "   -d, debug, --ndvm-debug       activate the NDVM debug"
 	echo "   -i, --ignore-dependence-check  do not check for dependences"
 	echo "   -t, --ignore-terminal-check    do not check for terminal"
 	echo "   -n, --nodejs-debug             activate the Node.JS debug"
 	echo "   -v, --version                  output version information and exit"
 	echo "   -h, --help                     display this help and exit"
 	echo
-	echo "Documentation at: <https://github.com/wwidd/wwidd/wiki>"
+	echo "Documentation at: <https://github.com/NDVM/NDVM/wiki>"
 	exit 0
 }
 
@@ -617,8 +380,8 @@ function arguments_info()
 		echo -e "$info_msg \"Node.JS Debug\" enabled"
 	fi
 
-	if [[ $wwidd_debug == true ]]; then
-		echo -e "$info_msg \"Wwidd Debug\" enabled"
+	if [[ $ndvm_debug == true ]]; then
+		echo -e "$info_msg \"NDVM Debug\" enabled"
 	fi
 }
 
@@ -631,15 +394,15 @@ function term_check()
 	## check if start.sh was not executed through terminal
 	if [[ ! -t 0 ]]; then
 		## term messages
-		term_msg_title="wwidd [start.sh]"
+		term_msg_title="NDVM [start.sh]"
 		term_msg_close="\n\n$info_msg Press ANY key to exit... "
 
 		## term commands
-		term_wwid="$startsh_path $startsh_args;"
+		term_ndvm="$startsh_path $startsh_args;"
 		term_printf="printf '$term_msg_close';"
 		term_wait="read -n1 -r;"
 
-		term_commands="$term_wwid $term_printf $term_wait"
+		term_commands="$term_ndvm $term_printf $term_wait"
 
 
 		## check if xterm is installed on system
@@ -650,7 +413,7 @@ function term_check()
 			xterm_internal_border="-b 5"
 			xterm_color="-bg rgb:1d/20/26 -fg rgb:ab/b2/bf"
 
-			# -xrm 'XTerm.VT100.translations: #override <Key>F1: exec-formatted("xdg-open https://github.com/wwidd/wwidd/wiki", SELECT)'
+			# -xrm 'XTerm.VT100.translations: #override <Key>F1: exec-formatted("xdg-open https://github.com/NDVM/NDVM/wiki", SELECT)'
 
 			xterm_args="$xterm_scrollbar $xterm_internal_border $xterm_color"
 
@@ -690,15 +453,9 @@ function start()
 		checkdistro
 
 		## check for: flock, jorder and jquery files
-		## because of: https://github.com/wwidd/wwidd/issues/17
-		checkdependence "server/src/node_modules/flock-0.1.3.js"
 		checkdependence "common/flock/flock-0.1.3.js"
 		checkdependence "client/www/jorder/jorder-1.2.1-min.js"
 		checkdependence "client/www/jquery/jquery.js"
-
-		if [[ $dependence_error == true ]]; then
-			download_depedence_files
-		fi
 
 		## check if all dependences are installed
 		checknode
@@ -707,7 +464,6 @@ function start()
 		checkapp true "sqlite3" 	"sqlite3"
 		checkapp true "xdg-open"	"xdg-utils"
 		checkapp true "gzip"		"gzip"
-		checkapp true "ifconfig"	"net-tools"
 
 		commandsuggestion
 
@@ -719,8 +475,8 @@ function start()
 		fi
 	fi
 
-	## call function execwwidd()
-	execwwidd
+	## call function execndvm()
+	execndvm
 }
 
 
@@ -746,8 +502,8 @@ while [[ "$1" != "" ]]; do
 		-n|--nodejs-debug)
 			nodejs_debug=true
 			;;
-		-d|debug|--wwidd-debug)
-			wwidd_debug=true
+		-d|debug|--ndvm-debug)
+			ndvm_debug=true
 			;;
 		-[a-z]*)
 			while getopts ":hvind" opt "$1"; do
@@ -768,7 +524,7 @@ while [[ "$1" != "" ]]; do
 						nodejs_debug=true
 						;;
 					d)
-						wwidd_debug=true
+						ndvm_debug=true
 						;;
 					\?)
 						echo -e "$error_msg Invalid option: -$OPTARG"
