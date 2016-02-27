@@ -38,6 +38,7 @@ ignore_terminal_check=false
 nodejs_debug=false
 ndvm_debug=false
 node_command="node"
+no_browser=false
 
 startsh_args="$@"
 
@@ -61,6 +62,9 @@ function execndvm()
 		fi
 		if [[ $ndvm_debug == true ]]; then
 			node_args="$node_args debug"
+		fi
+		if [[ $no_browser == true ]]; then
+			node_args="$node_args nobrowser"
 		fi
 
 		## executing NDVM
@@ -355,7 +359,8 @@ function display_help()
 	echo "Usage: $0 [options]"
 	echo
 	echo "Options:"
-	echo "   -d, debug, --ndvm-debug       activate the NDVM debug"
+	echo "   -d, debug, --ndvm-debug        activate the NDVM debug"
+	echo "   -b, --no-browser               do not open browser on NVM start"
 	echo "   -i, --ignore-dependence-check  do not check for dependences"
 	echo "   -t, --ignore-terminal-check    do not check for terminal"
 	echo "   -n, --nodejs-debug             activate the Node.JS debug"
@@ -505,6 +510,9 @@ while [[ "$1" != "" ]]; do
 		-d|debug|--ndvm-debug)
 			ndvm_debug=true
 			;;
+		-b|--no-browser)
+			no_browser=true
+			;;
 		-[a-z]*)
 			while getopts ":hvind" opt "$1"; do
 				case $opt in
@@ -525,6 +533,9 @@ while [[ "$1" != "" ]]; do
 						;;
 					d)
 						ndvm_debug=true
+						;;
+					b)
+						no_browser=true
 						;;
 					\?)
 						echo -e "$error_msg Invalid option: -$OPTARG"

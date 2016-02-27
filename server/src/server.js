@@ -18,6 +18,7 @@ var	$http = require('http'),
 		// environmental variables
 		PORT = 7519,
 		DEBUG = false,
+		BROWSER = true,
 		
 		// server object
 		server;
@@ -30,11 +31,15 @@ var	$http = require('http'),
 		switch (argv[i]) {
 		case 'debug':
 			DEBUG = true;
-			console.log("'DEBUG' set to " + DEBUG);
+			console.log("DEBUG enabled");
 			break;
 		case 'port':
 			PORT = parseInt(argv[i + 1], 10) || 8124;
-			console.log("'PORT' set to " + PORT);
+			console.log("PORT set to " + PORT);
+			break;
+		case 'nobrowser':
+			BROWSER = false;
+			console.log("'No Browser' feature enabled");
 			break;
 		}
 	}
@@ -116,8 +121,10 @@ server = $http.createServer(function (req, res) {
 var url = 'http://127.0.0.1:' + PORT;
 server.listen(PORT, '0.0.0.0', function () {
 	console.log("Server running at " + url);
-	browser.exec(url, function () {
-		console.log("Browser started.");
-	});
+	if ( BROWSER === true ) {
+		browser.exec(url, function () {
+			console.log("Browser started.");
+		});
+	}
 });
 
