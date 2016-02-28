@@ -371,6 +371,10 @@ function arguments_info()
 	if [[ $ndvm_debug == true ]]; then
 		echo -e "$info_msg \"NDVM Debug\" enabled"
 	fi
+	
+	if [[ $no_browser == true ]]; then
+		echo -e "$info_msg \"No Browser\" enabled"
+	fi
 }
 
 
