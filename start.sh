@@ -7,11 +7,8 @@
 ##
 
 ## configurable variables:
-nodejs_version_recommended="v0.9.3"
-
-nodejs_version_oldest="v0.7.1"
-nodejs_version_oldest_REG="^v0\.([0-6]\.[0-9]{1,3}|7\.0)$"
-nodejs_version_newest="v0.9.3"
+nodejs_version_oldest="v0.9.3"
+nodejs_version_oldest_REG="^v0\.(9\.[0-2]|[0-8]\.[0-9]{1,3})$"
 
 
 ## bash colors:
@@ -81,7 +78,7 @@ function execndvm()
 #####
 function checknvm()
 {
-	if [[ "$nodeinstalled" == false ]] || [[ $($node_command "--version") != "$nodejs_version_recommended" ]]; then
+	if [[ "$nodeinstalled" == false ]]; then
 		## check if nvm script exists and source it
 		if [[ -e "/usr/share/nvm/init-nvm.sh" ]]; then
 			source "/usr/share/nvm/init-nvm.sh"
@@ -90,26 +87,13 @@ function checknvm()
 		fi
 
 		if [[ "$nodeinstalled" == false ]]; then
-			unset nodeinstalled
-			return 0
-		fi
-
-		## check if nvm works
-		checkapp false nvm
-		if [[ "$?" != 0 ]]; then
-			echo -e "$info_msg no nvm detected! Consider on install it to use the recommended node version."
-			echo "===> Further details please check the nvm page: https://github.com/creationix/nvm"
-			return 0
-		fi
-
-		if [[ "$(nvm version $nodejs_version_recommended)" == "$nodejs_version_recommended" ]]; then
-			echo -e "$info_msg Node Version Manager: changing from $($node_command --version) to $nodejs_version_recommended ..."
-			nvm use $nodejs_version_recommended > /dev/null
-			checknode
-		else
-			echo -e "$info_msg $nodejs_version_recommended seems not be installed on nvm, please consider on install it:"
-			echo "===> Try: nvm install $nodejs_version_recommended"
-			checknode
+		
+			checkapp false node
+			if [[ "$?" == 0 ]]; then
+				unset nodeinstalled
+				return 0
+			fi
+			
 		fi
 	fi
 }
@@ -124,9 +108,8 @@ function checknodeversion()
 	node_version=$($node_command "--version")
 
 	if [[ "$node_version" =~ $nodejs_version_oldest_REG ]]; then
-		echo -e "$error_msg Your Node.JS version is too old! please upgrade to a version between \"$nodejs_version_oldest\" and \"$nodejs_version_newest\"."
+		echo -e "$error_msg Your Node.JS version is too old! please upgrade it to a version: \"$nodejs_version_oldest\" or newer."
 		echo -e "==> Current version: $node_version"
-		echo -e "==> Recommended version: $nodejs_version_recommended\n"
 		exit 1
 	else
 		echo -e "$info_msg Node.JS version: $node_version"
@@ -514,7 +497,7 @@ while [[ "$1" != "" ]]; do
 			no_browser=true
 			;;
 		-[a-z]*)
-			while getopts ":hvind" opt "$1"; do
+			while getopts ":hvindb" opt "$1"; do
 				case $opt in
 					h)
 						display_help
