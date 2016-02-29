@@ -55,7 +55,7 @@ system = {
 		}
 		
 		if (empty) {
-			// returning absolute tree on dafault root
+			// returning absolute tree on default root
 			return dirs.root();
 		} else {
 			// returning relative tree when only one root was given
