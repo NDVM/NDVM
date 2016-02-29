@@ -28,8 +28,8 @@ LIBRARY
 ******************************/
 
 #library {
-	border-color: #303030;
-	background: #303030;
+	border-color: #333333;
+	background: #333333;
 }
 
 /******************************
@@ -47,7 +47,7 @@ CONTROLS
 }
 
 #header {
-	border-color: #303030;
+	border-color: #333333;
 }
 
 #switcher span.spinner {
