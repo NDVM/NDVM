@@ -27,11 +27,9 @@ system = {
 		// default root paths
 		if (empty) {
 			paths = {
-				'linux': ['home', 'media', 'run/media'],
-				'freebsd': ['home', 'media'],
 				'cygwin': ['cygdrive'],
 				'darwin': ['Users', 'Volumes']
-			}[os] || ['home'];
+			}[os] || ['home', 'media', 'run/media', 'mnt', 'root'];
 		}
 		
 		// walker handler
