@@ -11,6 +11,11 @@ app.controls = function (controls, $) {
 		var self = controls.control.create(),
 				json,
 				expanded = false;
+			
+		// root path start expanded	
+		if ( text == '/' ) {
+			expanded = true;
+		}
 				
 		//////////////////////////////
 		// Getters, setters
