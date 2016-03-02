@@ -36,8 +36,8 @@ processes = {
 			'distributor': 'WM/ContentDistributor',
 			'copyright': 'copyright',
 			'bitrate': 'bitrate',
-			'video codec': 'video codec',
-			'audio codec': 'codec_name',
+			'video codec': 'codec_name',
+			'audio codec': 'audio codec',
 			'genre': 'WM/Genre',
 			'adult': 'WM/ParentalRating'
 		},
