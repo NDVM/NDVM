@@ -24,7 +24,7 @@ ffmpeg = function () {
 			'-show_format',
 			'-sexagesimal',
 			'-v', 'quiet',
-			inPath
+			'"' + inPath + '"'
 		];
 		var metadata = {};		
 		
