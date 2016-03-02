@@ -36,7 +36,7 @@ KEYWORDS
 
 div.keywords > .details {
 	position: absolute;
-	top: 20px;
+	top: 39px;
 	left: 0;
 	width: 100%;
 	margin: 0;
@@ -70,7 +70,8 @@ div.keywords > span.duration {
 }
 
 div.keywords > span.dimensions {
-	top: 0;
+	top: 20px;
+	left: 0;
 	right: 0;
 }
 
@@ -256,7 +257,7 @@ div.media.tile > div.medium.expanded > div.keywords {
 
 div.media.tile > div.medium.expanded > div.tagger {
 	top: 0;
-	left: 250px;
+	left: 220px;
 	height: 115px;
 }
 
