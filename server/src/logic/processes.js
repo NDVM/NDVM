@@ -31,13 +31,13 @@ processes = {
 		// keyword / metadata lookup 
 		lookup = {
 			'title': 'title',
-			'duration': 'Duration',
+			'duration': 'duration',
 			'dimensions': 'dimensions',
 			'distributor': 'WM/ContentDistributor',
 			'copyright': 'copyright',
 			'bitrate': 'bitrate',
 			'video codec': 'video codec',
-			'audio codec': 'audio codec',
+			'audio codec': 'codec_name',
 			'genre': 'WM/Genre',
 			'adult': 'WM/ParentalRating'
 		},
