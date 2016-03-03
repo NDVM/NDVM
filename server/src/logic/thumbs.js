@@ -26,7 +26,7 @@ thumbs = function () {
 				// generating hashes and collecting process input
 				for (i = 0; i < data.length; i++) {
 					entry = data[i];
-					if (!entry.hash.length || force) {
+					if (! entry.hash || force) {
 						shasum = $crypto.createHash('md5');
 						shasum.update(entry.path);
 						entry.hash = shasum.digest('hex');
