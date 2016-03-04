@@ -26,11 +26,13 @@ thumbs = function () {
 				// generating hashes and collecting process input
 				for (i = 0; i < data.length; i++) {
 					entry = data[i];
-					if (! entry.hash || force) {
-						shasum = $crypto.createHash('md5');
-						shasum.update(entry.path);
-						entry.hash = shasum.digest('hex');
-						elems.push(entry.rootid + '|' + entry.mediaid + '|' + entry.root + '|' + entry.path + '|' + entry.hash);
+					if (typeof entry.path != 'undefined') {
+						if (! entry.hash || force) {
+							shasum = $crypto.createHash('md5');
+							shasum.update(entry.path);
+							entry.hash = shasum.digest('hex');
+							elems.push(entry.rootid + '|' + entry.mediaid + '|' + entry.root + '|' + entry.path + '|' + entry.hash);
+						}
 					}
 				}
 				
