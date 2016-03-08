@@ -39,7 +39,7 @@ CONTROLS
 #kinds,
 #header,
 #footer {
-	background: #c4d2d7;
+	background: #d5d5d5;
 }
 
 #footer div.progress > div.bar {
@@ -98,22 +98,22 @@ div.medium.thumb > div.thumb {
 }
 
 div.medium.expanded {
-	border-color: #f0f0f0;
-	background: #f0f0f0;
+	border-color: #e6e6e6;
+	background: #e6e6e6;
 }
 
 div.medium.compact:hover {
-	background: #f0f0f0;
+	background: #e6e6e6;
 }
 
 div.medium.thumb.playing,
 div.medium.expanded.playing {
-	border-color: #b1c3c9;
-	background: #b1c3c9;
+	border-color: #cccccc;
+	background: #cccccc;
 }
 
 div.medium.compact.playing {
-	background: #b1c3c9;
+	background: #cccccc;
 }
 
 div.medium > div.file > span {
