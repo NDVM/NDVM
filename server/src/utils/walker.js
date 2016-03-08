@@ -9,6 +9,7 @@
 /*global require, exports, process, console */
 var	$fs = require('fs'),
 	debugMsg = require('./messager').debugMsg,
+	exec = require('child_process').execSync,
 
 // - dirHandler: called for each directory
 // - fileHandler: called for each file
@@ -16,10 +17,11 @@ var	$fs = require('fs'),
 //   - filter: regex for filtering file names
 walker = function (dirHandler, fileHandler, options) {
 	// defaults
+	var formats_extensions = '^.+\\.(wmv|avi|mov|mp4|mkv|webm|flv|ogv|mpeg|3gp|divx)$';
 	dirHandler = dirHandler || function () { };
 	fileHandler = fileHandler || function () { };
-	options = options || { filter: new RegExp('^.+\\.(wmv|avi|mov|mp4|mkv|webm|flv|ogv|mpeg|3gp|divx)$', 'ig'), hidden: false };
-
+	options = options || { filter: new RegExp(formats_extensions, 'ig'), hidden: false };
+	
 	var self = {
 		// synchronous directory walking
 		// when the function returns, the whole process has completed
@@ -73,6 +75,16 @@ walker = function (dirHandler, fileHandler, options) {
 				} else if (stats.isFile()) {
 					// calling file handler
 					if (path.match(options.filter)) {
+						// check if video file is valid or not in Sync Method
+						if (options.filter == '/' + formats_extensions + '/gi') {
+							try{
+								exec('ffprobe -v quiet "' + path + '"');
+							}
+							catch (e) {
+								debugMsg("WALKER - Invalid Video file: " + path);
+								return;
+							}
+						} 
 						fileHandler(relative, stats);
 					}
 				}
