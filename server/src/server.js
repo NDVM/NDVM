@@ -34,7 +34,7 @@ var	$http = require('http'),
 			console.log("DEBUG enabled");
 			break;
 		case 'port':
-			PORT = parseInt(argv[i + 1], 10) || 8124;
+			PORT = parseInt(argv[i + 1], 10) || 7519;
 			console.log("PORT set to " + PORT);
 			break;
 		case 'nobrowser':
