@@ -451,11 +451,10 @@ function start()
 
 		## check if all dependences are installed
 		checknode
-		checkapp true "vlc"		"vlc"
-		checkapp true "ffmpeg"		"ffmpeg"
+		checkapp true "ffmpeg"	"ffmpeg"
 		checkapp true "sqlite3" 	"sqlite3"
 		checkapp true "xdg-open"	"xdg-utils"
-		checkapp true "gzip"		"gzip"
+		checkapp true "gzip"	"gzip"
 
 		commandsuggestion
 
