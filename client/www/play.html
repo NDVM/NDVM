@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Player</title>
+
+    <link href="./videojs/video-js.css" rel="stylesheet">
+    <script src="./videojs/video.js"></script>
+
+</head>
+
+
+<script>var mediaid = window.location.href.split("?")[1];</script>
+
+
+<body>
+    <div>
+
+<script>
+  document.write(
+  	'<video id="video"' +
+  	' class="video-js vjs-16-9 vjs-default-skin vjs-fluid vjs-controls-enabled vjs-big-play-centered"' +
+  	' data-setup=\'{"controls":true,"autoplay":true}\'' +
+  	' src="./video-stream?' + mediaid + '" controls></video>'
+  )
+</script>
+
+    </div>
+</body>
+
+</html>
