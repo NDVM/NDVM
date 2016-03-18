@@ -445,9 +445,9 @@ function start()
 		checkdistro
 
 		## check for: flock, jorder and jquery files
-		checkdependence "common/flock/flock-0.1.3.js"
-		checkdependence "client/www/jorder/jorder-1.2.1-min.js"
-		checkdependence "client/www/jquery/jquery.js"
+		checkdependence "node_modules/flock/flock-0.1.3.js"
+		checkdependence "node_modules/jorder/jorder-1.2.1-min.js"
+		checkdependence "node_modules/jquery/jquery.js"
 
 		## check if all dependences are installed
 		checknode
