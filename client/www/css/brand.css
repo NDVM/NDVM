@@ -10,7 +10,7 @@ GENERAL
 
 body {
 	background-color: #f3f3f3;
-	background-image: url('/image/wwidd_bg.png');
+	background-image: url('/image/ndvm_bg.png');
 	background-position: 0 0;
 }
 
@@ -20,7 +20,7 @@ a {
 
 input[type="text"] {
 	color: #444;
-	border-color: #003e55;
+	border-color: #B3B3B3;
 }
 
 /******************************
@@ -88,12 +88,12 @@ div.medium {
 	background: #f8f8f8;
 }
 
-div.medium.thumb:hover { 
+div.medium.thumb:hover {
 	border-color: #e0e0e0;
 	background: #e0e0e0;
 }
 
-div.medium.thumb > div.thumb { 
+div.medium.thumb > div.thumb {
 	background: #f8f8f8;
 }
 
