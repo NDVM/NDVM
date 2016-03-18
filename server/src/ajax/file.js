@@ -23,7 +23,7 @@ fetch = function (filePath, res, debug) {
 		}
 
 		if ($fs.statSync(filePath).isDirectory()) {
-			filePath += debug ? '/debug.html' : '/index.html';
+			filePath += '/index.html';
 		}
 
 		$fs.readFile(filePath, "binary", function (err, file) {
