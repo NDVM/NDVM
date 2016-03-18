@@ -5,7 +5,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
 var		vlc = require('../tools/vlc').vlc,
-		thumbs = require('../logic/thumbs').thumbs,
 		entity = require('../db/media').media,
 		debugMsg = require('../utils/messager').debugMsg,
 
@@ -24,14 +23,10 @@ media = function (mediaid) {
 				debugMsg("MEDIA - starting playback of file: " + path);
 
 				var browser_extensions = '^.+\\.(mp4|webm|ogv|3gp)$';
-				
 				if ( path.match(browser_extensions) != null ) {
 					var logicPath = path;
 					exports.logicPath = logicPath;
-				} else {
-					var logicPath = null;
-					exports.logicPath = logicPath;
-				
+				} else {				
 					vlc.exec(path, function (path) {
 						debugMsg("MEDIA - playback finished or interrupted");
 					});
