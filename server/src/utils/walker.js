@@ -17,7 +17,7 @@ var	$fs = require('fs'),
 //   - filter: regex for filtering file names
 walker = function (dirHandler, fileHandler, options) {
 	// defaults
-	var formats_extensions = '^.+\\.(wmv|avi|mov|mp4|mkv|webm|flv|ogv|mpeg|3gp|divx)$';
+	var formats_extensions = '^.+\\.(wmv|avi|mov|mp4|mkv|webm|flv|ogv|mpeg|mpg|3gp|divx)$';
 	dirHandler = dirHandler || function () { };
 	fileHandler = fileHandler || function () { };
 	options = options || { filter: new RegExp(formats_extensions, 'ig'), hidden: false };
