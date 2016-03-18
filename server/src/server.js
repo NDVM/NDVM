@@ -78,22 +78,6 @@ server = $http.createServer(function (req, res) {
 		system.run(endpoint, query, res);
 		break;
 
-	case 'pack':
-		// packs css of js files together in one request
-		(function () {
-			var type = {'css': 'css', 'js': 'js'}[query.type] || 'js',
-					ext = '.' + type,
-					files = query.files.split(/\s*,\s*/),
-					i, filePath;
-			res.writeHead(200, {"Content-Type": "text/" + {'css': 'css', 'js': 'javascript'}[type]});
-			for (i = 0; i < files.length; i++) {
-				filePath = $path.join(process.cwd(), '../../client/www/' + files[i] + ext);
-				file.add(filePath, res);
-			}
-			res.end();
-		}());
-		break;
-
 	case 'video-stream':
 		(function () {
 			var mediaid = req.url.split('?')[1];
