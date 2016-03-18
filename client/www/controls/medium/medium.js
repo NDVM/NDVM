@@ -72,7 +72,11 @@ app.controls = function (controls, $, services, data) {
 				.siblings().removeClass('playing').end()
 				.addClass('playing');
 			services.media.play(mediaid);
-			var myWindow = window.open("./play.html?" + mediaid, "", "width=655, height=375");
+			
+			var browser_extensions = '^.+\\.(mp4|webm|ogv|3gp)$';
+			if( data.media.getRow(mediaid).file.match(browser_extensions) != null ){
+				var myWindow = window.open("./play.html?" + mediaid, "", "width=655, height=375");
+			}
 			data.pagestate.lastPlayed = mediaid;
 			return self;
 		};

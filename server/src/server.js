@@ -85,7 +85,6 @@ server = $http.createServer(function (req, res) {
 			logicMedia.media(mediaid).play();
 			var _file = logicMedia.logicPath;
 
-
 			var range = req.headers.range;
 			var positions = range.replace(/bytes=/, "").split("-");
 			var start = parseInt(positions[0], 10);
