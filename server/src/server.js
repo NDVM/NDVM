@@ -10,7 +10,7 @@ var	$http = require('http'),
 		file = require('./ajax/file'),
 		logicMedia = require('./logic/media'),
 
-		// modlules
+		// modules
 		library = require('./ajax/library'),
 		media = require('./ajax/media'),
 		tag = require('./ajax/tag'),
@@ -87,11 +87,7 @@ server = $http.createServer(function (req, res) {
 					i, filePath;
 			res.writeHead(200, {"Content-Type": "text/" + {'css': 'css', 'js': 'javascript'}[type]});
 			for (i = 0; i < files.length; i++) {
-				if (files[i].split('/')[0] === 'common') {
-					filePath = $path.join(process.cwd(), '../../' + files[i] + ext);
-				} else {
-					filePath = $path.join(process.cwd(), '../../client/www/' + files[i] + ext);
-				}
+				filePath = $path.join(process.cwd(), '../../client/www/' + files[i] + ext);
 				file.add(filePath, res);
 			}
 			res.end();
@@ -139,9 +135,6 @@ server = $http.createServer(function (req, res) {
 			switch (endpoint.split('/')[1]) {
 			case 'cache':
 				filePath = $path.join(process.cwd(), '..' + endpoint);
-				break;
-			case 'common':
-				filePath = $path.join(process.cwd(), '../..' + endpoint);
 				break;
 			default:
 				filePath = $path.join(process.cwd(), '../../client/www' + endpoint);
