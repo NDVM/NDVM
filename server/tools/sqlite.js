@@ -14,12 +14,12 @@ var	$fs = require('fs'),
 
 sqlite = function () {
 	var db = 'default',
-			path = '../db/',
-	
+			path = '../data/db/',
+
 	// constants
 	RETRY_COUNT = 3,
 	RETRY_DELAY = 1000,
-			
+
 	// return codes
 	SQLITE_OK = 0,					// Successful result
 	SQLITE_ERROR = 1,				// SQL error or missing database
@@ -50,7 +50,7 @@ sqlite = function () {
 	SQLITE_NOTADB = 26,			// File opened that is not a database file
 	SQLITE_ROW = 100,				// sqlite3_step() has another row ready
 	SQLITE_DONE = 101,			// sqlite3_step() has finished executing
-	
+
 	outputParser = Object.create(parser, {
 		rowSeparator: {value: new RegExp(tool.lineBreak + tool.lineBreak + '\\s*')},
 		fieldSeparator: {value: new RegExp(tool.lineBreak + '\\s*')},
@@ -61,7 +61,7 @@ sqlite = function () {
 		executable: {value: 'sqlite3'},
 		parser: {value: outputParser}
 	});
-	
+
 	// getter for path property
 	self.path = function () {
 		return path;
@@ -77,14 +77,14 @@ sqlite = function () {
 			return self;
 		}
 	};
-	
+
 	// checks whether current database exists
 	self.exists = function () {
 		var fileName = path + db + '.sqlite',
 				exists = $fs.existsSync(fileName) && $fs.statSync(fileName).size > 0;
 		return exists;
 	};
-	
+
 	// executes an SQL command through the sqlite command line tool
 	// - statement: SQL statement or SQL file path to execute
 	// - handler: callback passed to tool
@@ -98,9 +98,9 @@ sqlite = function () {
 		if (statement.match(/^.+\.sql$/ig)) {
 			// reading statement from file
 			debugMsg("SQLITE - reading SQL command from file: " + statement);
-			statement = $fs.readFileSync('../db/' + statement);
+			statement = $fs.readFileSync('sql/' + statement);
 		}
-		
+
 		if (!pipe) {
 			// passing the command directly
 			args = args.concat([statement]);
@@ -134,7 +134,7 @@ sqlite = function () {
 				}
 			}
 		}
-		
+
 		// running sql statement
 		tool.exec.call(self, args, onComplete, true);
 
@@ -143,7 +143,7 @@ sqlite = function () {
 			self.pipe(statement);
 		}
 	};
-	
+
 	return self;
 }();
 

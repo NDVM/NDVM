@@ -117,10 +117,10 @@ server = $http.createServer(function (req, res) {
 
 			switch (endpoint.split('/')[1]) {
 			case 'cache':
-				filePath = $path.join(process.cwd(), '..' + endpoint);
+				filePath = $path.join(process.cwd(), '../data' + endpoint);
 				break;
 			default:
-				filePath = $path.join(process.cwd(), '../../client/www' + endpoint);
+				filePath = $path.join(process.cwd(), '../client' + endpoint);
 				break;
 			}
 

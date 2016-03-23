@@ -44,9 +44,9 @@ startsh_args="$@"
 #####
 function execndvm()
 {
-	if [[ -e "$ndvm_path/server/src/server.js" ]]; then
+	if [[ -e "$ndvm_path/server/server.js" ]]; then
 		## Enter on right folder
-		cd "$ndvm_path""/server/src"
+		cd "$ndvm_path""/server"
 
 		## messages
 		echo -e "$ok_msg Executing NDVM ..."
@@ -68,7 +68,7 @@ function execndvm()
 		$node_command $node_args
 
 	else
-		echo -e "$error_msg file: ""$bash_und_yellow""server/src/server.js""$bash_reset"" not found."
+		echo -e "$error_msg file: ""$bash_und_yellow""server/server.js""$bash_reset"" not found."
 	fi
 }
 

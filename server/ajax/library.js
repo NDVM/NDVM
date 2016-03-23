@@ -23,7 +23,7 @@ function run(endpoint, query, res) {
 			});
 		});
 		break;
-		
+
 	case '/lib/select':
 		// sets the selected library
 		envelope(res, true, function (ok) {
@@ -43,15 +43,15 @@ function run(endpoint, query, res) {
 			throw "Missing parameters";
 		}
 		(function () {
-			var filePath = $path.join(process.cwd(), './server/db/' + query.name + '.sqlite');
+			var filePath = $path.join(process.cwd(), './data/db/' + query.name + '.sqlite');
 			file.fetch(filePath, res);
 		}());
 		break;
-		
+
 	default:
 		return false;
 	}
-	
+
 	return true;
 }
 
