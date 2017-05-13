@@ -66,6 +66,7 @@ ffmpeg = function () {
 		
 		// passing on results
 		handler(metadata);
+		return metadata;
 	}
 	
 	// extracts metadata from video file
@@ -73,6 +74,19 @@ ffmpeg = function () {
 	// - outPath: path to thumbnail, no thumbnail will be generated when absent
 	// - count: number of thumbs to generate
 	self.exec = function (inPath, outPath, count, handler) {
+		
+		mdata = ffprobe(function(metadata){ },inPath)
+		if (RegExp("0:00:(1[0-5]|0[0-9])").test(mdata['duration'])) {
+			seconds = mdata['duration'].split(":")[2];
+			if ( seconds < 4 ) {
+				var sstime = '0'
+			} else { 
+				var sstime = '3'
+			}
+		} else {
+			var sstime = '15'
+		}
+		
 		var args = outPath ? [
 			'-i', inPath ,
 			'-f', 'image2',
@@ -82,7 +96,7 @@ ffmpeg = function () {
 			   '\'if(gt(a,4/3),-1,96)\',' + 
 			   'pad=w=128:h=97:x=(ow-iw)/2:y=(oh-ih)/2:color=black',
 			'-y',
-			'-ss', '15',
+			'-ss', sstime,
 			outPath
 		] : [
 			'-i', inPath
