@@ -35,6 +35,13 @@ app.services = function ($, window, service, poll) {
 				}, handler);
 			},
 			
+			// retrieve true or false for HTML5 player
+			html5: function (filter, handler) {
+				service('media/html5').call({
+					filter: filter
+				}, handler);
+			},
+			
 			// starts playback of a file
 			play: function (mediaid, handler) {
 				service('media/play').call({

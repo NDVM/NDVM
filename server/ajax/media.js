@@ -5,7 +5,8 @@
 var	envelope = require('./envelope').envelope,
 		library = require('../logic/library').library,
 		media = require('../logic/media').media,
-		thumbs = require('../logic/thumbs').thumbs;
+		thumbs = require('../logic/thumbs').thumbs,
+		server = require('../server.js');
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"
@@ -19,6 +20,13 @@ function run(endpoint, query, res) {
 			library.getMedia(query.filter, function (data) {
 				ok(data);
 			});
+		});
+		break;
+
+	case '/media/html5':
+		// html5 player (true/false)
+		envelope(res, true, function (ok) {
+			ok(Boolean(server.HTML5PLAYER));
 		});
 		break;
 

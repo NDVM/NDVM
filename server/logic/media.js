@@ -7,6 +7,7 @@
 var		vlc = require('../tools/vlc').vlc,
 		entity = require('../db/media').media,
 		debugMsg = require('../utils/messager').debugMsg,
+		server = require('../server.js'),
 
 media = function (mediaid) {
 	var self = {
@@ -23,7 +24,7 @@ media = function (mediaid) {
 				debugMsg("MEDIA - starting playback of file: " + path);
 
 				var browser_extensions = '^.+\\.(mp4|webm|ogv|3gp)$';
-				if ( path.match(browser_extensions) != null ) {
+				if ( path.match(browser_extensions) != null && server.HTML5PLAYER === true ) {
 					var logicPath = path;
 					exports.logicPath = logicPath;
 				} else {				

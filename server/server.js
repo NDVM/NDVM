@@ -18,9 +18,10 @@ var	$http = require('http'),
 		system = require('./ajax/system'),
 
 		// environmental variables
-		PORT = 7519,
-		DEBUG = false,
-		BROWSER = true,
+		PORT = 7519,			// node.js port
+		DEBUG = false,			// debug (true/false)
+		BROWSER = true,			// launch browser (true/false)
+		HTML5PLAYER = false,	// html 5 player (true/false)
 
 		// server object
 		server;
@@ -47,7 +48,9 @@ var	$http = require('http'),
 	}
 }());
 
+// export variables
 module.exports.DEBUG = DEBUG;
+module.exports.HTML5PLAYER = HTML5PLAYER;
 
 // creating server object
 server = $http.createServer(function (req, res) {

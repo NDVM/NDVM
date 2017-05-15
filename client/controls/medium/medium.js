@@ -73,10 +73,31 @@ app.controls = function (controls, $, services, data) {
 				.addClass('playing');
 			services.media.play(mediaid);
 			
-			var browser_extensions = '^.+\\.(mp4|webm|ogv|3gp)$';
-			if( data.media.getRow(mediaid).file.match(browser_extensions) != null ){
-				var myWindow = window.open("./play.html?" + mediaid, "", "width=655, height=375");
+			services.media.html5();
+			
+			function preprocess(json) {
+				var i, row, fileInfo;
+				for (i = 0; i < json.length; i++) {
+					row = json[i];
+					fileInfo = splitPath(row.path);
+					row.file = fileInfo.file;
+					row.lfile = fileInfo.file.toLowerCase();
+				}
+				return json;
 			}
+			
+			// check if html5 player is available and launch it
+			services.media.html5('', function (json) {
+				
+				HTML5PLAYER = preprocess(json.data);
+				if (HTML5PLAYER === true) {
+					var browser_extensions = '^.+\\.(mp4|webm|ogv|3gp)$';
+					if( data.media.getRow(mediaid).file.match(browser_extensions) != null ){
+						var myWindow = window.open("./play.html?" + mediaid, "", "width=655, height=375");
+					}
+				}
+			});
+			
 			data.pagestate.lastPlayed = mediaid;
 			return self;
 		};
