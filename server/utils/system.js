@@ -48,7 +48,7 @@ system = {
 					walker(handler).walkSync(root, 2);
 				}
 			} catch (e_exist) {
-				debugMsg("Ignored path: " + '/' + paths[i]);
+				debugMsg("SYSTEM - Ignored path: " + '/' + paths[i]);
 			}
 		}
 		

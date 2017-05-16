@@ -63,7 +63,7 @@ entity = {
 			where.length ? ["WHERE", where.join(" AND ")].join(" ") : ""
 		].join(" ");
 		
-		debugMsg(statement);
+		debugMsg("ENTITY - " + statement);
 		db.query(statement, handler);
 		
 		return this;
@@ -82,7 +82,7 @@ entity = {
 			"WHERE", this.key, "IN", "('" + keys.join("','") + "')"
 		].join(" ");
 
-		debugMsg(statement);
+		debugMsg("ENTITY - " + statement);
 		db.query(statement, handler);
 		
 		return this;		
@@ -100,7 +100,7 @@ entity = {
 			["(", pair.values.join(","), ")"].join("")
 		].join(" ");
 		
-		debugMsg(statement);
+		debugMsg("ENTITY - " + statement);
 		db.nonQuery(statement, handler);
 		
 		return this;
@@ -119,7 +119,7 @@ entity = {
 			where.length ? ["WHERE", where.join(" AND ")].join(" ") : ""
 		].join(" ");
 
-		debugMsg(statement);
+		debugMsg("ENTITY - " + statement);
 		db.nonQuery(statement, handler);
 		
 		return this;
@@ -174,7 +174,7 @@ entity = {
 			where.join(" AND ")
 		].join(" ");
 
-		debugMsg(statement);
+		debugMsg("ENTITY - " + statement);
 		db.nonQuery(statement, handler);
 
 		return this;		

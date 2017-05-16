@@ -31,7 +31,7 @@ function run(endpoint, query, res) {
 				throw "Missing parameters";
 			}
 			library.set(query.name, function (data) {
-				debugMsg("library changed");
+				debugMsg("AJAX/LIBRARY - library changed");
 				ok(data);
 			});
 		});

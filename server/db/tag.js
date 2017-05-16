@@ -41,7 +41,7 @@ tag = function () {
 		]).join(" ");
 				
 		if (handler) {
-			debugMsg(statement);
+			debugMsg("TAG - " + statement);
 			db.nonQuery(statement, handler);
 			return self;
 		} else {
@@ -92,7 +92,7 @@ tag = function () {
 			"COMMIT"
 		]).join(";\n");
 		
-		debugMsg(statement);
+		debugMsg("TAG - " + statement);
 		db.nonQuery(statement, handler);
 	};
 	
@@ -121,7 +121,7 @@ tag = function () {
 		].join(" ");
 
 		if (handler) {
-			debugMsg(statement);
+			debugMsg("TAG - " + statement);
 			db.nonQuery(statement, handler);
 			return self;
 		} else {
@@ -158,7 +158,7 @@ tag = function () {
 			"END TRANSACTION"
 		].join(";\n");
 		
-		debugMsg(statement);
+		debugMsg("TAG - " + statement);
 		db.nonQuery(statement, handler);
 	};
 	

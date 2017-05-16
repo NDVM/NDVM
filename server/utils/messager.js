@@ -17,14 +17,26 @@ var colorMsg = {
 	'darwin': true
 }[os()] || false;
 
-var debug = function debugMsg(msg) {
+var debug = function debugMsg(msg, debugmsg = true, stdout = false) {
+	// msg = to be printed on console.log/stdout.write
+	// debugmsg = display [DEBUG]
+	// stdout = stdout.write instead of console.log
+	
 	var debugInfo = {
 		true: '\x1b[1;93m[DEBUG]\x1b[0m'
 	}[colorMsg] || '[DEBUG]'
+	
+	if (debugmsg === true){
+		msg = debugInfo + " " + msg
+	}
 
 	// send message if debug is enabled
 	if ( server.DEBUG === true ) {
-		console.log( debugInfo, msg );
+		if ( stdout === true ) {
+			process.stdout.write( msg );
+		} else {
+			console.log( msg );
+		}
 	}
 }
 

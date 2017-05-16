@@ -18,7 +18,7 @@ library = function () {
 				"WHERE rootid =", rootid
 			].join(" ");
 			
-			debugMsg(statement);
+			debugMsg("LIBRARY - " + statement);
 			db.query(statement, handler);
 		},
 		
@@ -42,7 +42,7 @@ library = function () {
 				filter ? $media.filter(filter, 'media') : ""
 			].join(" ");
 			
-			debugMsg(statement);
+			debugMsg("LIBRARY - " + statement);
 			db.query(statement, handler);
 		},
 		
@@ -61,7 +61,7 @@ library = function () {
 				'COMMIT;'
 			].join('\n');
 			
-			debugMsg(statement);
+			debugMsg("LIBRARY - " + statement);
 			db.nonQuery(statement, handler);			
 		},
 		

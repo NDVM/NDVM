@@ -32,20 +32,20 @@ db = function () {
 
 		// executes statement that return data		
 		query: function (statement, handler) {
-			debugMsg("DB/" + name + " - executing query");
+			debugMsg("DB - DB:" + name + " - executing query");
 			sqlite.exec(statement, handler, ['-header', '-line']);
 		},
 		
 		// executes statement that changes data
 		nonQuery: function (statement, handler) {
-			debugMsg("DB/" + name + " - executing non-query");
+			debugMsg("DB - DB:" + name + " - executing non-query");
 			sqlite.exec(statement, handler);
 		},
 		
 		// executes statement that changes data
 		// feeds input to sqlite process with pipe
 		nonQueryPiped: function (statement, handler) {
-			debugMsg("DB/" + name + " - executing non-query with pipe");
+			debugMsg("DB - DB:" + name + " - executing non-query with pipe");
 			sqlite.exec(statement, handler, [], true);
 		}
 	};

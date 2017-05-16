@@ -128,7 +128,7 @@ sqlite = function () {
 				break;
 			default:
 				console.log("SQLITE - query failed");
-				debugMsg(statement);
+				debugMsg("SQLITE - " + statement);
 				if (handler) {
 					handler();
 				}

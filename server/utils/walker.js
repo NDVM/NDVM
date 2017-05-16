@@ -37,7 +37,10 @@ walker = function (dirHandler, fileHandler, options) {
 			
 			(function walk(relative, depth) {
 				if (++fileCount % 16 === 0) {
-					process.stdout.write(".");
+					if (fileCount === 16) {
+						debugMsg("WALKER - ",true,true);
+					}
+					debugMsg("[.]", false, true);
 				}
 
 				var	i,
@@ -91,7 +94,7 @@ walker = function (dirHandler, fileHandler, options) {
 			})('', 0);
 			
 			if (fileCount > 16) {
-				process.stdout.write("\n");
+				debugMsg("\n",false,true);
 			}
 			
 			return self;
