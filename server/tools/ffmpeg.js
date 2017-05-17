@@ -91,10 +91,10 @@ ffmpeg = function () {
 			'-i', inPath ,
 			'-f', 'image2',
 			'-vframes', count || 1,
-			'-aspect', '4:3',
-			'-filter:vf', 'scale=\'if(gt(a,4/3),128,-1)\':' + 
-			   '\'if(gt(a,4/3),-1,96)\',' + 
-			   'pad=w=128:h=97:x=(ow-iw)/2:y=(oh-ih)/2:color=black',
+			'-aspect', '16:9',
+			'-filter:vf', 'scale=\'if(gt(a,16/9),172,-1)\':' + 
+			   '\'if(gt(a,16/9),-1,96)\',' + 
+			   'pad=w=172:h=97:x=(ow-iw)/2:y=(oh-ih)/2:color=black',
 			'-y',
 			'-ss', sstime,
 			outPath

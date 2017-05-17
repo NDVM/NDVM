@@ -98,7 +98,7 @@ div.medium > div.file > span {
 }
 
 div.medium > div.overlay {
-	width: 128px;
+	width: 172px;
 	height: 24px;
 	background: black;
 	opacity: 0.5; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; *filter:alpha(opacity=50);
@@ -108,7 +108,7 @@ div.medium > div.overlay {
 div.medium > div.play {
 	top: 0;
 	left: 0;
-	width: 128px;
+	width: 172px;
 	height: 96px;
 	opacity: 0.0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; *filter:alpha(opacity=0);
 	z-index: 2;
@@ -125,15 +125,15 @@ div.medium.playing > div.play {
 }
 
 div.medium > div.thumb {
-	width: 128px;
-	height: 96px;
+	width: 172px;
+	height: 97px;
 	z-index: 1;
 }
 
 div.medium > div.thumb > span.spinner {
 	position: absolute;
 	top: 34px;
-	left: 40px;
+	left: 64px;
 	display: inline-block; *zoom: 1;
 	width: 48px;
 	height: 48px;
@@ -192,11 +192,11 @@ div.media.tile > div.medium.expanded {
 }
 
 div.medium.thumb {
-	width: 128px;
+	width: 172px;
 }
 
 div.media.tile > div.medium.expanded {
-	width: 414px;
+	width: 458px;
 }
 
 div.medium.thumb > div {
@@ -211,11 +211,11 @@ div.media.tile > div.medium.expanded > div.file {
 }
 
 div.medium.thumb > div.file {
-	width: 124px;
+	width: 168px;
 }
 
 div.media.tile > div.medium.expanded > div.file {
-	width: 414px;
+	width: 458px;
 }
 
 div.medium.thumb > div.overlay,
@@ -246,18 +246,18 @@ div.media.tile > div.medium.expanded > div.rater {
 div.medium.thumb > div.check,
 div.media.tile > div.medium.expanded > div.check {
 	top: 2px;
-	left: 105px;
+	left: 149px;
 }
 
 div.media.tile > div.medium.expanded > div.keywords {
 	top: 0;
-	left: 138px;
+	left: 182px;
 	width: 100px;
 }
 
 div.media.tile > div.medium.expanded > div.tagger {
 	top: 0;
-	left: 220px;
+	left: 264px;
 	height: 115px;
 }
 
@@ -307,7 +307,7 @@ div.media.list > div.medium.expanded > div.check > input {
 }
 
 div.medium.compact > div.file {
-	width: 300px;
+	width: 344px;
 }
 
 div.media.list > div.medium.expanded > div.file {
@@ -331,7 +331,7 @@ div.medium.compact.playing > div.file > span {
 
 div.media.list > div.medium.expanded > div.keywords {
 	top: 24px;
-	left: 163px;
+	left: 207px;
 	width: 257px; /* 420 - 163 */
 }
 
@@ -361,7 +361,7 @@ div.media.list > div.medium.expanded > div.rater {
 
 div.media.list > div.medium.expanded > div.rater {
 	top: 24px;
-	left: 330px;
+	left: 374px;
 }
 
 div.medium.compact > div.tagger,
@@ -373,7 +373,7 @@ div.media.list > div.medium.expanded > div.tagger {
 
 div.media.list > div.medium.expanded > div.tagger {
 	top: 24px;
-	left: 420px;
+	left: 464px;
 }
 
 /******************************
