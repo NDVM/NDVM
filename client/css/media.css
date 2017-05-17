@@ -98,7 +98,7 @@ div.medium > div.file > span {
 }
 
 div.medium > div.overlay {
-	width: 172px;
+	width: 174px;
 	height: 24px;
 	background: black;
 	opacity: 0.5; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; *filter:alpha(opacity=50);
@@ -108,8 +108,8 @@ div.medium > div.overlay {
 div.medium > div.play {
 	top: 0;
 	left: 0;
-	width: 172px;
-	height: 96px;
+	width: 174px;
+	height: 98px;
 	opacity: 0.0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; *filter:alpha(opacity=0);
 	z-index: 2;
 }
@@ -125,8 +125,8 @@ div.medium.playing > div.play {
 }
 
 div.medium > div.thumb {
-	width: 172px;
-	height: 97px;
+	width: 174px;
+	height: 98px;
 	z-index: 1;
 }
 
@@ -192,7 +192,7 @@ div.media.tile > div.medium.expanded {
 }
 
 div.medium.thumb {
-	width: 172px;
+	width: 174px;
 }
 
 div.media.tile > div.medium.expanded {
@@ -205,7 +205,7 @@ div.medium.thumb > div {
 
 div.medium.thumb > div.file,
 div.media.tile > div.medium.expanded > div.file {
-	top: 96px;
+	top: 98px;
 	left: 0;
 	margin: 3px 0 1px;
 }
@@ -274,7 +274,7 @@ div.media.list > div.medium.expanded {
 div.media.list > div.medium.expanded {
 	position: relative;
 	padding: 2px 0;
-	height: 122px;
+	height: 126px;
 }
 
 div.medium.compact > div.check,
