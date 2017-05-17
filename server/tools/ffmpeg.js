@@ -76,18 +76,16 @@ ffmpeg = function () {
 	self.exec = function (inPath, outPath, count, handler) {
 		
 		mdata = ffprobe(function(metadata){ },inPath)
-		if (RegExp("0:00:(1[0-5]|0[0-9])").test(mdata['duration'])) {
-			seconds = mdata['duration'].split(":")[2];
-			if ( seconds < 4 ) {
-				var sstime = '0'
-			} else { 
-				var sstime = '3'
-			}
-		} else {
-			var sstime = '15'
-		}
+		var parts = mdata['duration'].split(":");
+ +		var hours = parseFloat(parts[0]);
+ +		var minutes = parseFloat(parts[1]);
+ +		var seconds = parseFloat(parts[2]);
+ +		
+ +		var durationSec = 3600 * hours + 60 * minutes + seconds;
+ +		var sstime = Math.round(durationSec * 10 /100);
 		
 		var args = outPath ? [
+			'-ss', sstime,
 			'-i', inPath ,
 			'-f', 'image2',
 			'-vframes', count || 1,
@@ -95,8 +93,7 @@ ffmpeg = function () {
 			'-filter:vf', 'scale=\'if(gt(a,16/9),174,-1)\':' + 
 			   '\'if(gt(a,16/9),-1,98)\',' + 
 			   'pad=w=174:h=98:x=(ow-iw)/2:y=(oh-ih)/2:color=black',
-			'-y',
-			'-ss', sstime,
+			'-y',			
 			outPath
 		] : [
 			'-i', inPath
