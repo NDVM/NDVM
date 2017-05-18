@@ -77,12 +77,12 @@ ffmpeg = function () {
 		
 		mdata = ffprobe(function(metadata){ },inPath)
 		var parts = mdata['duration'].split(":");
- +		var hours = parseFloat(parts[0]);
- +		var minutes = parseFloat(parts[1]);
- +		var seconds = parseFloat(parts[2]);
- +		
- +		var durationSec = 3600 * hours + 60 * minutes + seconds;
- +		var sstime = Math.round(durationSec * 10 /100);
+		var hours = parseFloat(parts[0]);
+		var minutes = parseFloat(parts[1]);
+		var seconds = parseFloat(parts[2]);
+		
+		var durationSec = 3600 * hours + 60 * minutes + seconds;
+		var sstime = Math.round(durationSec * 10 /100);
 		
 		var args = outPath ? [
 			'-ss', sstime,
