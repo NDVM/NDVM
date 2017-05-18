@@ -84,16 +84,24 @@ ffmpeg = function () {
 		var durationSec = 3600 * hours + 60 * minutes + seconds;
 		var sstime = Math.round(durationSec * 10 /100);
 		
+		var ratio = ['16','9'];  // aspect ratio
+		var size = ['174','98']; // thumbnail dimension
+		
 		var args = outPath ? [
 			'-ss', sstime,
 			'-i', inPath ,
 			'-f', 'image2',
 			'-vframes', count || 1,
-			'-aspect', '16:9',
-			'-filter:vf', 'scale=\'if(gt(a,16/9),174,-1)\':' + 
-			   '\'if(gt(a,16/9),-1,98)\',' + 
-			   'pad=w=174:h=98:x=(ow-iw)/2:y=(oh-ih)/2:color=black',
-			'-y',			
+			'-aspect', ratio[0] + ':' + ratio[1] ,
+			'-filter:vf',
+			   'scale=' +
+			   '\'if(gt(a,'+ratio[0]+'/'+ratio[1]+'),'+size[0]+',-1)\':' +
+			   '\'if(gt(a,'+ratio[0]+'/'+ratio[1]+'),-1,'+size[1]+')\',' +
+			   'pad=' +
+			   'w='+size[0]+':h='+size[1]+':' +
+			   'x=(ow-iw)/2:y=(oh-ih)/2:' +
+			   'color=black',
+			'-y',
 			outPath
 		] : [
 			'-i', inPath
