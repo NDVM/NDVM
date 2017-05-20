@@ -180,9 +180,9 @@ app.controls = function (controls, $) {
 		
 		 ($this.is(':checked')) ? alldirs = true : alldirs = false
 		 
-		if ($('li:first').is('.expanded')) {
+		if ($('ul.root li:first').is('.expanded')) {
 			for (i = 0; i < 2; i++) { 
-				$('li:first > span.toggle').trigger('click');
+				$('ul.root li:first > span.toggle').trigger('click');
 			}
 		}
 	}
