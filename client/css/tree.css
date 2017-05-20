@@ -56,6 +56,16 @@ div.tree li.selected > span.name {
 	font-weight: bold;
 }
 
+div.tree li.hide > span.name {
+	display:none;
+	visibility: hidden;
+}
+
+div.tree li.hide > span.toggle {
+	display:none;
+	visibility: hidden;
+}
+
 div.tree li > span.toggle {
 	display: inline-block; *zoom: 1;
 	height: 16px;
@@ -71,5 +81,9 @@ div.tree li.expanded > span.toggle {
 div.tree li.dead > span.toggle {
 	cursor: inherit;
 	background: none;
+}
+
+div.checkbox > input {
+	vertical-align:bottom;
 }
 

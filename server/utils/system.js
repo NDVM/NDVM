@@ -29,7 +29,7 @@ system = {
 			paths = {
 				'cygwin': ['cygdrive'],
 				'darwin': ['Users', 'Volumes']
-			}[os] || ['home', 'media', 'run/media', 'mnt', 'root'];
+			}[os] || $fs.readdirSync('/');
 		}
 		
 		// walker handler
@@ -45,7 +45,7 @@ system = {
 				// Is it a directory?
 				if (stats.isDirectory()) {
 					root = '/' + paths[i];
-					walker(handler).walkSync(root, 2);
+					walker(handler).walkSync(root, 1);
 				}
 			} catch (e_exist) {
 				debugMsg("SYSTEM - Ignored path: " + '/' + paths[i]);

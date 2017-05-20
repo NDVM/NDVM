@@ -88,8 +88,27 @@ app.controls = function (controls, $) {
 		}
 		
 		self.html = function () {
+			var visibleDirs=[['home','media','run','mnt','root'],
+			                 ['run','media']];
+			
+			var regEx=RegExp( visibleDirs[0].join('|') ).test(text);
+			
+			if ( !(alldirs) ){
+				if (( path.length === 1 && !( regEx ) ) ||
+				
+				   ( path.length === 2 
+				     && path[0] === visibleDirs[1][0]
+				     && !(path[1] === visibleDirs[1][1])) ) {
+				
+					var hide=true;
+				}
+			}
 			return [
-				'<li id="', self.id, '" class="', ['node', expanded ? 'expanded' : '', selected() ? 'selected' : ''].join(' '), '">',
+				'<li id="', self.id, '" class="',
+				['node', expanded ? 'expanded' : '',
+				 selected() ? 'selected' : '',
+				 hide ? 'hide':''
+				 ].join(' '), '">',
 				'<span class="toggle"></span>',
 				'<span class="name">', text, '</span>',
 				'<ul>',
@@ -155,12 +174,25 @@ app.controls = function (controls, $) {
 
 		return false;
 	}
-	
+
+	onChecked = function () {
+		var $this = $(this);
+		
+		 ($this.is(':checked')) ? alldirs = true : alldirs = false
+		 
+		if ($('li:first').is('.expanded')) {
+			for (i = 0; i < 2; i++) { 
+				$('li:first > span.toggle').trigger('click');
+			}
+		}
+	}
+
 	// applying handlers
 	// any non-dead folder can be expanded
 	// any folder can be selected
 	$( document ).on('click', 'li.node:not(.dead) > span.toggle', onExpandCollapse);
 	$( document ).on('click', 'li.node > span.name', onSelect);
+	$( document ).on('click', 'div.checkbox > :checkbox', onChecked);
 	
 	return controls;
 }(app.controls,

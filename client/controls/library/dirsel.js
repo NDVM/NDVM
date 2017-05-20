@@ -5,6 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
 var app = app || {};
+var alldirs = false;
 
 app.controls = function (controls, $, services) {
 	// tells whether an object has any own propertes

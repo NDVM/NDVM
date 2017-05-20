@@ -61,6 +61,7 @@ app.controls = function (controls, $) {
 				'<tr>', '<td><span>', "Selected:", '</span></td>', '<td><span class="selected">&nbsp;</span></td>', '</tr>',
 				'</table>',
 				rootNode ? '<ul class="root">' + rootNode.html() + '</ul>' : '',
+				'<tr><div class="checkbox"><input type="checkbox" ', alldirs ? 'checked' : '','>','<span>',"Show all directories",'</span></div></tr>',
 				'</div>'
 			].join('');
 		};
