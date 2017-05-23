@@ -166,6 +166,9 @@ app.controls = (function (controls, $, data, services) {
 				// updating thumbnails
 				var mediaid, medium;
 				for (mediaid in json.load) {
+					// set the cache variable
+					data.media.setMediaCache(mediaid);
+
 					if (json.load.hasOwnProperty(mediaid) && lookup.hasOwnProperty(mediaid)) {
 						// looking up control
 						medium = lookup[mediaid];

@@ -156,7 +156,8 @@ app.controls = function (controls, $, services, data) {
 					'<div class="play"><div class="image"></div></div>',
 					'<div class="thumb">',
 					row.hash.length ?
-						['<img src="/cache/', row.hash, '.jpg">'].join('') :
+						['<img src="/cache/', row.hash, '.jpg?u=',
+						   ( row.cache ) ? row.cache : '0' ,'">'].join('') :
 						'<span class="spinner"></span>',
 					'</div>'
 				].join('') : '',

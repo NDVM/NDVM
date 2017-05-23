@@ -278,6 +278,17 @@ app.data = function (data, jOrder, flock, cache, services) {
 			}
 		},
 		
+		// sets the cache variable to force the browser to update thumb image
+		setMediaCache: function (mediaid) {
+			var cache_path = ['media', mediaid, 'cache'];
+
+			// gets the value
+			( cache.get(cache_path) )? mediacache++ : mediacache = 1
+
+			// sets it into the memory
+			cache.set(cache_path, mediacache);
+		},
+
 		// sets rating on media entry
 		setRating: function (row, rating) {
 			var mediaid = row.mediaid,
