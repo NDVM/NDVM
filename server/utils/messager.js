@@ -21,9 +21,10 @@ var debug = function debugMsg(msg, debugmsg, stdout) {
 	// msg = to be printed on console.log/stdout.write
 	// debugmsg = display [DEBUG]
 	// stdout = stdout.write instead of console.log
-	debugmsg = debugmsg ? debugmsg : true;
-	stdout = stdout ? stdout : false;
 	
+	if (debugmsg === undefined){ debugmsg = true }
+	if (stdout === undefined){ stdout = false }
+
 	var debugInfo = {
 		true: '\x1b[1;93m[DEBUG]\x1b[0m'
 	}[colorMsg] || '[DEBUG]'
