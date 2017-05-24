@@ -45,7 +45,7 @@ system = {
 				// Is it a directory?
 				if (stats.isDirectory()) {
 					root = '/' + paths[i];
-					walker(handler).walkSync(root, 1);
+					walker(handler).walkSync(root, 1, true);
 				}
 			} catch (e_exist) {
 				debugMsg("SYSTEM - Ignored path: " + '/' + paths[i]);

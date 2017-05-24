@@ -5,6 +5,8 @@
 var	$path = require('path'),
 	tool = require('../tools/tool').tool,
 	execSync = require('child_process').execSync,
+	ffprobeCollectData = require('./ffprobe').ffprobeCollectData,
+
 
 ffmpeg = function () {
 	self = Object.create(tool, {
@@ -14,79 +16,32 @@ ffmpeg = function () {
 
 	// collect video data using ffprobe
 	function ffprobe(handler, inPath) {
-	
-		// ffprobe arguments:	
-		var args = [
-			'-of', 'json',
-			'-show_streams',
-			'-show_format',
-			'-sexagesimal',
-			'-v', 'quiet',
-			'"' + inPath + '"'
-		];
-		var metadata = {};		
-		
-		// execute ffprobe:
-		var result = JSON.parse(execSync('ffprobe ' + args.join(" ") ));
-		
-		// check where is the 'video' to collect the data		  
-		for (i = 0; i < result.streams.length; i++) {
-			if ( result.streams[i]['codec_type'] === 'video' ) {
-				var arr = i;
-				break;
-			}
-		}
-		
-		// fields to collect:		  
-		var field = [
-			'dimensions',
-			'duration',
-			'codec_name'
-		];
-		
-		// collecting data
-		for (i in field) {
-			switch(field[i]){
-				case 'dimensions':
-					var width=JSON.stringify(result.streams[arr][ 'width' ]);
-					var height=JSON.stringify(result.streams[arr][ 'height' ]);
-					metadata[ field[i] ]= width + 'x' + height;
-					break;
-				case 'duration':
-					metadata[ field[i] ]= result.format.duration.split('.')[0];
-					break;
-				default:
-					if ( result.streams[arr][ field[i] ] != undefined ) {
-						var field_rst = JSON.stringify(result.streams[arr][ field[i] ]);
-						metadata[ field[i] ]= field_rst.replace(/"/g, '');
-					}
-					break;
-			}
-		};
-		
+
+		metadata = ffprobeCollectData(inPath);
+
 		// passing on results
 		handler(metadata);
 		return metadata;
 	}
-	
+
 	// extracts metadata from video file
 	// - inPath: path to video file
 	// - outPath: path to thumbnail, no thumbnail will be generated when absent
 	// - count: number of thumbs to generate
 	self.exec = function (inPath, outPath, count, handler) {
-		
+
 		mdata = ffprobe(function(metadata){ },inPath)
 		var parts = mdata['duration'].split(":");
 		var hours = parseFloat(parts[0]);
 		var minutes = parseFloat(parts[1]);
 		var seconds = parseFloat(parts[2]);
-		
+
 		var durationSec = 3600 * hours + 60 * minutes + seconds;
 		var sstime = Math.round(durationSec * 10 /100);
-		
+
 		var ratio = ['16','9'];  // aspect ratio
 		var size = ['174','98']; // thumbnail dimension
-		
+
 		var args = outPath ? [
 			'-ss', sstime,
 			'-i', inPath ,
@@ -106,7 +61,7 @@ ffmpeg = function () {
 		] : [
 			'-i', inPath
 		];
-		
+
 		// check if thumbnail exists
 		tool.exec.call(self, args, function (code, stdout) {
 			if (code === 0) {

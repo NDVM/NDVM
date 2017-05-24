@@ -10,6 +10,7 @@
 var	$fs = require('fs'),
 	debugMsg = require('./messager').debugMsg,
 	exec = require('child_process').execSync,
+	ffprobeCollectData = require('../tools/ffprobe').ffprobeCollectData,
 
 // - dirHandler: called for each directory
 // - fileHandler: called for each file
@@ -27,7 +28,8 @@ walker = function (dirHandler, fileHandler, options) {
 		// when the function returns, the whole process has completed
 		// - root: root path
 		// - maxDepth: maximum depth
-		walkSync: function (root, maxDepth) {
+		// - justwalk: (true/false) ignore the file verification
+		walkSync: function (root, maxDepth, justwalk) {
 			var	fileCount = 0,
 					hasMaxDepth = typeof maxDepth !== 'undefined';
 			
@@ -75,15 +77,15 @@ walker = function (dirHandler, fileHandler, options) {
 							walk(relative + '/' + files[i], depth + 1);
 						}
 					}
-				} else if (stats.isFile()) {
+				} else if (stats.isFile() && justwalk !== true) {
 					// calling file handler
 					if (path.match(options.filter)) {
 						// check if video file is valid or not in Sync Method
 						if (options.filter == '/' + formats_extensions + '/gi') {
 							try{
-								exec('ffprobe -v quiet "' + path + '"');
-							}
-							catch (e) {
+								ffprobeCollectData(path);
+								debugMsg("WALKER - Valid Video file: " + path);
+							} catch (e) {
 								debugMsg("WALKER - Invalid Video file: " + path);
 								return;
 							}
