@@ -196,7 +196,7 @@ div.medium.thumb {
 }
 
 div.media.tile > div.medium.expanded {
-	width: 458px;
+	width: 552px;
 }
 
 div.medium.thumb > div {
@@ -215,7 +215,7 @@ div.medium.thumb > div.file {
 }
 
 div.media.tile > div.medium.expanded > div.file {
-	width: 458px;
+	width: 552px;
 }
 
 div.medium.thumb > div.overlay,
