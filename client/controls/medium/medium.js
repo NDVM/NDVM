@@ -87,7 +87,7 @@ app.controls = function (controls, $, services, data) {
 			}
 			
 			// check if html5 player is available and launch it
-			services.media.html5('', function (json) {
+			services.media.html5(function (json) {
 				
 				HTML5PLAYER = preprocess(json.data);
 				if (HTML5PLAYER === true) {
