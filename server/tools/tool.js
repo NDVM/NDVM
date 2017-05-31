@@ -104,7 +104,7 @@ tool = {
 		// handling tool exit
 		if ( cmd_var === false ) {
 			that.child.on('exit', function (code) {
-				that.toolCallback(that, 0, stdout, silent, handler);
+				that.toolCallback(that, code, stdout, silent, handler);
 			});
 		}
 
