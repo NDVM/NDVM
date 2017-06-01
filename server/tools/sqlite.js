@@ -17,7 +17,8 @@ sqlite = function () {
 			path = '../data/db/',
 
 	// constants
-	RETRY_COUNT = 3,
+	RETRY_COUNT = 4,
+	RETRY_FIRST_DELAY = 200,
 	RETRY_DELAY = 1000,
 
 	// return codes
@@ -116,6 +117,7 @@ sqlite = function () {
 				break;
 			case SQLITE_BUSY:
 			case SQLITE_LOCKED:
+				var RETRY_TIME = (retries === 0) ? RETRY_FIRST_DELAY : RETRY_DELAY;
 				if (retries >= RETRY_COUNT) {
 					throw "Database or table still locked after " + retries + " retries, query failed";
 				} else {
@@ -123,7 +125,7 @@ sqlite = function () {
 					debugMsg("SQLITE - database or table locked, re-running query (" + retries + "/" + RETRY_COUNT + ")");
 					setTimeout(function () {
 						tool.exec.call(self, args, onComplete, true);
-					}, RETRY_DELAY);
+					}, RETRY_TIME);
 				}
 				break;
 			default:

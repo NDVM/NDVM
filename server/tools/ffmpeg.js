@@ -4,7 +4,6 @@
 /*global require, exports, console */
 var	$path = require('path'),
 	tool = require('../tools/tool').tool,
-	execSync = require('child_process').execSync,
 	ffprobeCollectData = require('./ffprobe').ffprobeCollectData,
 
 

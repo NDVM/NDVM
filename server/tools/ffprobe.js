@@ -2,7 +2,7 @@
 // ffprobe
 //
 // Execute "ffprobe" for each media file to determine if its a valid file
-// and also collect information about the video.
+// and also to collect information about the video.
 ////////////////////////////////////////////////////////////////////////////////
 
 var $path = require('path');
