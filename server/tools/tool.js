@@ -74,7 +74,11 @@ tool = {
 							   "exited with code:", code].join(" ") + ".";
 					// tool failed
 					if (silent === true) {
-						console.log("TOOL - silently failed. " + message);
+						if(that.executable === 'sqlite3'){
+							console.log("TOOL - silently failed. " + message);
+						} else {
+							debugMsg("TOOL - silently failed. " + message);
+						}
 						// wrapping up
 						if (handler) {
 							handler(code);
