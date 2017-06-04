@@ -8,12 +8,24 @@ var app = app || {};
 
 app.controls = function (controls, $, data) {
 	controls.pager = function () {
-		var self = controls.control.create(),
-				pages = controls.dropdown(),
-				pagesel = controls.select(),
-				page = 0,
-				items = 63,
-				max = 0;
+
+		// items per page based on screen resolution
+		var screenHeight = window.screen.availHeight;
+		var screenWidth = window.screen.availWidth;
+
+		var thumbRows = Math.floor( (screenHeight - 147) / 130 );
+		var thumbColumns = Math.floor( (screenWidth - 20) / 189 );
+		var items = (thumbColumns * thumbRows);
+
+		    items = (items > 19) ? items : 19;   // min
+		    items = (items < 280) ? items : 280; // max
+
+
+		var self = controls.control.create();
+		var pages = controls.dropdown();
+		var pagesel = controls.select();
+		var page = 0;
+		var max = 0;
 
 		//////////////////////////////
 		// Getters, setters
