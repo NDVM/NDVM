@@ -4,11 +4,11 @@
 // Base class for command line execution
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, Buffer, console */
-var $child_process = require('child_process'),
-	system = require('../utils/system').system,
-	debugMsg = require('../utils/messager').debugMsg,
+var $child_process = require('child_process');
+var system = require('../utils/system').system;
+var debugMsg = require('../utils/messager').debugMsg;
 
-tool = {
+var tool = {
 	// line break string depending on OS
 	// to be used in RegExp objects only!
 	lineBreak: system.os in {'windows': 'windows', 'cygwin': 'cygwin'} ? '\\r\\n' : '\\n',
@@ -54,7 +54,11 @@ tool = {
 
 		// callback
 		function onData(data) {
-			stdout.push(Buffer.isBuffer(data) ? data.toString(that.binary ? 'binary' : 'utf8') : data);
+			debugMsg("TOOL - data return from: '"+ that.executable +
+			         "' - lenght of data: " + data.length);
+
+			stdout.push(Buffer.isBuffer(data) ?
+			    data.toString(that.binary ? 'binary' : 'utf8') : data);
 		}
 
 		// data buffering
