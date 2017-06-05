@@ -4,19 +4,18 @@
 // Base class for table records
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var	db = require('../db/db').db,
-	debugMsg = require('../utils/messager').debugMsg,
+var db = require('../db/db').db;
+var debugMsg = require('../utils/messager').debugMsg;
 
 // escapes quotes in SQL statements by duplicating them
-quotes = function (text) {
-	return text.replace(/'/g, "''");
-},
+var quotes = function (text) { return text.replace(/'/g, "''"); };
 
 // splits an object's keys and values into separate arrays
-split = function (object) {
-	var	key,
-			keys = [],
-			values = [];
+var split = function (object) {
+	var key;
+	var keys = [];
+	var values = [];
+
 	for (key in object) {
 		if (object.hasOwnProperty(key)) {
 			keys.push(key);
@@ -24,15 +23,16 @@ split = function (object) {
 		}
 	}
 	return {'keys': keys, 'values': values};
-},
+};
 
 // returns an array that can be used as a where or set clause
 // depending on how you concatenate them
 // - object: key - value pairs aka. conditions in AND relationship
 // - caseless: whether conditions should be case insensitive
-clause = function (object, caseless) {
-	var	key, value,
-			result = [];
+var clause = function (object, caseless) {
+	var key, value;
+	var result = [];
+
 	for (key in object) {
 		if (object.hasOwnProperty(key)) {
 			value = quotes(object[key]);
@@ -44,9 +44,9 @@ clause = function (object, caseless) {
 		}
 	}
 	return result;
-},
+};
 
-entity = {
+var entity = {
 	// kind of entity (aka. table name)
 	kind: null,
 	
@@ -55,15 +55,15 @@ entity = {
 	
 	// gets the entity(ies) from database
 	get: function (before, handler) {
-		var where = clause(before || {}),
+		var where = clause(before || {});
 
-		statement = [
+		var statement = [
 			"SELECT * FROM",
 			this.kind,
 			where.length ? ["WHERE", where.join(" AND ")].join(" ") : ""
 		].join(" ");
-		
-		debugMsg("ENTITY - " + statement);
+
+		debugMsg("DB/ENTITY - get - SQL: " + statement);
 		db.query(statement, handler);
 		
 		return this;
@@ -82,7 +82,7 @@ entity = {
 			"WHERE", this.key, "IN", "('" + keys.join("','") + "')"
 		].join(" ");
 
-		debugMsg("ENTITY - " + statement);
+		debugMsg("DB/ENTITY - multiGet - SQL: " + statement);
 		db.query(statement, handler);
 		
 		return this;		
@@ -90,17 +90,17 @@ entity = {
 	
 	// adds an entity of this kind
 	add: function (after, handler) {
-		var pair = split(after),
+		var pair = split(after);
 
-		statement = [
+		var statement = [
 			"INSERT OR IGNORE INTO",
 			this.kind,
 			["(", pair.keys.join(","), ")"].join(""),
 			"VALUES",
 			["(", pair.values.join(","), ")"].join("")
 		].join(" ");
-		
-		debugMsg("ENTITY - " + statement);
+
+		debugMsg("DB/ENTITY - add - SQL: " + statement);
 		db.nonQuery(statement, handler);
 		
 		return this;
@@ -108,10 +108,10 @@ entity = {
 	
 	// changes the entity in the database
 	set: function (before, after, handler) {
-		var set = clause(after || {}),
-				where = clause(before || {}),
-				
-		statement = [
+		var set = clause(after || {});
+		var where = clause(before || {});
+
+		var statement = [
 			"UPDATE",
 			this.kind,
 			"SET",
@@ -119,7 +119,7 @@ entity = {
 			where.length ? ["WHERE", where.join(" AND ")].join(" ") : ""
 		].join(" ");
 
-		debugMsg("ENTITY - " + statement);
+		debugMsg("DB/ENTITY - set - SQL: " + statement);
 		db.nonQuery(statement, handler);
 		
 		return this;
@@ -132,10 +132,10 @@ entity = {
 		if (!this.key) {
 			throw "Entity key undefined.";
 		}
-		
-		var statement = [],
-				key, set,
-				counter = 0;
+
+		var statement = [];
+		var key, set;
+		var counter = 0;
 		
 		statement.push("BEGIN TRANSACTION");
 		for (key in after) {
@@ -152,9 +152,9 @@ entity = {
 			}
 		}
 		statement.push("COMMIT");
-		
+
 		if (counter > 0) {
-			debugMsg("ENTITY - multiSet SQL statement built: " + statement.length + " lines");
+			debugMsg("DB/ENTITY - multiSet SQL statement built: " + statement.length + " lines");
 			db.nonQuery(statement.join(";\n"), handler);
 		} else if (handler) {
 			handler();
@@ -165,16 +165,16 @@ entity = {
 	
 	// removes an entity of this kind
 	remove: function (before, handler) {
-		var where = clause(before || {}),
+		var where = clause(before || {});
 
-		statement = [
+		var statement = [
 			"DELETE FROM",
 			this.kind,
 			"WHERE",
 			where.join(" AND ")
 		].join(" ");
 
-		debugMsg("ENTITY - " + statement);
+		debugMsg("DB/ENTITY - remove - SQL: " + statement);
 		db.nonQuery(statement, handler);
 
 		return this;		

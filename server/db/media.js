@@ -2,16 +2,17 @@
 // Media Entity
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var	entity = require('../db/entity').entity,
-	db = require('../db/db').db,
-	debugMsg = require('../utils/messager').debugMsg,
+var entity = require('../db/entity').entity;
+var db = require('../db/db').db;
+var debugMsg = require('../utils/messager').debugMsg;
 
 // constructs a where clause that will retrieve
 // media records filtered by tags
-filter = function (tags, table) {
-	var names = tags.split(/\s*[^A-Za-z0-9:\s]+\s*/),
-			clause = [],
-			i;
+var filter = function (tags, table) {
+	var names = tags.split(/\s*[^A-Za-z0-9:\s]+\s*/);
+	var clause = [];
+	var i;
+
 	for (i = 0; i < names.length; i++) {
 		clause.push("',' || group_concat(name) LIKE '%," + names[i] + "%'");
 	}
@@ -24,20 +25,20 @@ filter = function (tags, table) {
 		clause.join(" AND "),
 		")"
 	].join(" ");
-},
+};
 
 // constructs a where clause that will retrieve
 // media records by their id
-selection = function (mediaids) {
+var selection = function (mediaids) {
 	var tmp = mediaids.split(/[^0-9]+/);
 	return [
 		"AND mediaid IN (",
 		tmp.join(","),
 		")"
 	].join(" ");
-},
+};
 
-media = function (mediaid) {
+var media = function (mediaid) {
 	var self = Object.create(entity, {kind: {value: 'media'}, key: {value: 'mediaid'}});
 
 	self.get = function (handler) {
@@ -47,7 +48,7 @@ media = function (mediaid) {
 			"JOIN roots USING (rootid)",
 			"WHERE mediaid =", mediaid
 		].join(" ");
-		debugMsg(statement);
+		debugMsg("DB/MEDIA - get - SQL: " + statement);
 		db.query(statement, handler);
 	};
 	
@@ -58,7 +59,7 @@ media = function (mediaid) {
 			"JOIN roots USING (rootid)",
 			"WHERE mediaid IN", "('" + mediaids.join("','") + "')"
 		].join(" ");
-		debugMsg(statement);
+		debugMsg("DB/MEDIA - multiGet - SQL: " + statement);
 		db.query(statement, handler);
 	};
 	

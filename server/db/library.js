@@ -2,13 +2,13 @@
 // Video Library - Data Model
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var	$path = require('path'),
-		$media = require('../db/media'),
-		quotes = require('../db/entity').quotes,
-		db = require('../db/db').db,
-		debugMsg = require('../utils/messager').debugMsg,
+var $path = require('path');
+var $media = require('../db/media');
+var quotes = require('../db/entity').quotes;
+var db = require('../db/db').db;
+var debugMsg = require('../utils/messager').debugMsg;
 
-library = function () {
+var library = function () {
 	var self = {
 		// queries all media ids under a root
 		getPaths: function (rootid, handler) {
@@ -18,7 +18,7 @@ library = function () {
 				"WHERE rootid =", rootid
 			].join(" ");
 			
-			debugMsg("LIBRARY - " + statement);
+			debugMsg("DB/LIBRARY - getPaths - SQL: "+ statement);
 			db.query(statement, handler);
 		},
 		
@@ -42,18 +42,16 @@ library = function () {
 				filter ? $media.filter(filter, 'media') : ""
 			].join(" ");
 			
-			debugMsg("LIBRARY - " + statement);
+			debugMsg("DB/LIBRARY - getMedia - SQL: "+ statement);
 			db.query(statement, handler);
 		},
 		
 		// deletes media entries from library
 		// - mediaids: comma separated list of media ids
 		delMedia: function (mediaids, handler) {
-			var 
+			var clause = 'WHERE mediaid IN (' + mediaids + ')';
 
-			clause = 'WHERE mediaid IN (' + mediaids + ')',
-			
-			statement = [
+			var statement = [
 				'BEGIN TRANSACTION;',
 				'DELETE FROM keywords ' + clause + ';',
 				'DELETE FROM tags ' + clause + ';',
@@ -61,7 +59,7 @@ library = function () {
 				'COMMIT;'
 			].join('\n');
 			
-			debugMsg("LIBRARY - " + statement);
+			debugMsg("DB/LIBRARY - delMedia - SQL: "+ statement);
 			db.nonQuery(statement, handler);			
 		},
 		
@@ -72,16 +70,16 @@ library = function () {
 		// - options: specifies what sort of information to store
 		//	 format: {keywords: bool, tags: bool} (default is 'true' for both)
 		fill: function (data, options, handler) {
-			var	statement = [],
-					rootid,
-					paths, path,
-					keywords, keyword,
-					tags, i,
-					lastid = "(SELECT value FROM vars WHERE name = 'lastid')",
-					count = 0;
-	
+			var statement = [];
+			var rootid;
+			var paths, path;
+			var keywords, keyword;
+			var tags, i;
+			var lastid = "(SELECT value FROM vars WHERE name = 'lastid')";
+			var count = 0;
+
 			statement.push("BEGIN TRANSACTION;");
-			
+
 			// adding temporary table to store last accessed media id
 			statement.push("CREATE TEMPORARY TABLE vars (name TEXT, value INTEGER);");
 			statement.push("INSERT INTO vars (name, value) VALUES ('lastid', 0);");
@@ -158,7 +156,7 @@ library = function () {
 			
 			if (count > 0) {
 				// executing statement
-				debugMsg("LIBRARY - ingest SQL statement built: " + statement.length + " lines");	
+				debugMsg("DB/LIBRARY - ingest SQL statement built: " + statement.length + " lines");
 				db.nonQueryPiped(statement.join('\n'), handler);
 			} else {
 				handler();

@@ -2,16 +2,16 @@
 // Database
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var	sqlite = require('../tools/sqlite').sqlite,
-	debugMsg = require('../utils/messager').debugMsg,
+var sqlite = require('../tools/sqlite').sqlite;
+var debugMsg = require('../utils/messager').debugMsg;
 
-db = function () {
+var db = function () {
 	var self,
 			name;
 	
 	// creates database
 	function create(handler) {
-		debugMsg("DB - creating DB: " + name);
+		debugMsg("DB/DB - creating DB: " + name);
 		sqlite.exec('create.sql', handler, [], true);
 	}
 	
@@ -19,7 +19,7 @@ db = function () {
 		// switches databases
 		name: function (value, handler) {
 			name = value;
-			debugMsg("DB - switching over to DB: " + name);
+			debugMsg("DB/DB - switching over to DB: " + name);
 			// switching to new db
 			sqlite.db(name);
 			if (!sqlite.exists()) {
@@ -32,20 +32,20 @@ db = function () {
 
 		// executes statement that return data		
 		query: function (statement, handler) {
-			debugMsg("DB - DB:" + name + " - executing query");
+			debugMsg("DB/DB - DB:" + name + " - executing query");
 			sqlite.exec(statement, handler, ['-header', '-line']);
 		},
 		
 		// executes statement that changes data
 		nonQuery: function (statement, handler) {
-			debugMsg("DB - DB:" + name + " - executing non-query");
+			debugMsg("DB/DB - DB:" + name + " - executing non-query");
 			sqlite.exec(statement, handler);
 		},
 		
 		// executes statement that changes data
 		// feeds input to sqlite process with pipe
 		nonQueryPiped: function (statement, handler) {
-			debugMsg("DB - DB:" + name + " - executing non-query with pipe");
+			debugMsg("DB/DB - DB:" + name + " - executing non-query with pipe");
 			sqlite.exec(statement, handler, [], true);
 		}
 	};

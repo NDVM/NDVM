@@ -2,23 +2,23 @@
 // Tag Entity
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var	$media = require('../db/media'),
-		db = require('../db/db').db,
-		entity = require('../db/entity').entity,
-		clause = require('../db/entity').clause,
-		debugMsg = require('../utils/messager').debugMsg,
+var $media = require('../db/media');
+var db = require('../db/db').db;
+var entity = require('../db/entity').entity;
+var clause = require('../db/entity').clause;
+var debugMsg = require('../utils/messager').debugMsg;
 
-tag = function () {
-	var base = Object.create(entity, {kind: {value: 'tags'}}),
-			self = Object.create(base);
+var tag = function () {
+	var base = Object.create(entity, {kind: {value: 'tags'}});
+	var self = Object.create(base);
 
 	// adds one tag to the file
 	self.add = function (after, filter, mediaids, where, handler) {
-		var tmp = after.tag.split(':'),
-				name = "'" + tmp[0] + "'",
-				kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL",
+		var tmp = after.tag.split(':');
+		var name = "'" + tmp[0] + "'";
+		var kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL";
 
-		statement = (typeof after.mediaid !== 'undefined' && after.mediaid !== null ? [
+		var statement = (typeof after.mediaid !== 'undefined' && after.mediaid !== null ? [
 			"INSERT OR IGNORE INTO",
 			self.kind,
 			"(mediaid, name, kind) VALUES",
@@ -30,18 +30,13 @@ tag = function () {
 			["SELECT mediaid", name, kind].join(","),
 			"FROM", self.kind,
 			"WHERE 1",
-			mediaids ?
-				$media.selection(mediaids) :
-				filter ?
-					$media.filter(filter) : 
-					"",
-			where ?
-				"AND " + where :
-				""
+			mediaids ? $media.selection(mediaids) :
+				filter ? $media.filter(filter) : "",
+			where ? "AND " + where : ""
 		]).join(" ");
-				
+
 		if (handler) {
-			debugMsg("TAG - " + statement);
+			debugMsg("DB/TAG - add - SQL: " + statement);
 			db.nonQuery(statement, handler);
 			return self;
 		} else {
@@ -55,12 +50,12 @@ tag = function () {
 		before.name = before.tag.split(':')[0];
 		delete before.tag;
 		
-		var	where =  clause(before, true).join(" AND "),
-				tmp = after.tag.split(':'),
-				name = "'" + tmp[0] + "'",
-				kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL",
+		var where =  clause(before, true).join(" AND ");
+		var tmp = after.tag.split(':');
+		var name = "'" + tmp[0] + "'";
+		var kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL";
 		
-		statement = (before.mediaid ? [
+		var statement = (before.mediaid ? [
 			// updaing a single tag
 			"BEGIN TRANSACTION",
 			// deleting old tag name
@@ -92,36 +87,29 @@ tag = function () {
 			"COMMIT"
 		]).join(";\n");
 		
-		debugMsg("TAG - " + statement);
+		debugMsg("DB/TAG - set - SQL: " + statement);
 		db.nonQuery(statement, handler);
 	};
 	
 	// removes tag from file(s)
 	self.remove = function (before, filter, mediaids, where, handler) {
-		var mediaid = before.mediaid,
-				tmp = before.tag.split(':'),
-				name = tmp[0],
-				clause = mediaids ?
-					$media.selection(mediaids) :
-					filter ?
-						$media.filter(filter) :
-						"",
+		var mediaid = before.mediaid;
+		var tmp = before.tag.split(':');
+		var name = tmp[0];
+		var clause = mediaids ?	$media.selection(mediaids) :
+					filter ? $media.filter(filter) : "";
 
-		statement = [
+		var statement = [
 			"DELETE FROM", self.kind,
 			"WHERE 1",
 			clause,
 			"AND name = '" + name + "'",
-			mediaid ?
-				"AND mediaid = " + mediaid :
-				"",
-			where ?
-				"AND " + where :
-				""
+			mediaid ? "AND mediaid = " + mediaid : "",
+			where ? "AND " + where : ""
 		].join(" ");
 
 		if (handler) {
-			debugMsg("TAG - " + statement);
+			debugMsg("DB/TAG - remove - SQL: " + statement);
 			db.nonQuery(statement, handler);
 			return self;
 		} else {
@@ -131,12 +119,12 @@ tag = function () {
 
 	// explodes tag
 	self.explode = function (before, filter, mediaids, handler) {
-		var tmp = before.tag.split(':'),
-				where = "name = '" + tmp[0] + "'",
-				names = tmp[0].split(' '),
-				kind = tmp[1] || '',
+		var tmp = before.tag.split(':');
+		var where = "name = '" + tmp[0] + "'";
+		var names = tmp[0].split(' ');
+		var kind = tmp[1] || '';
 
-		statement = [
+		var statement = [
 			"BEGIN TRANSACTION",
 			// adds exploded tags
 			(function () {
@@ -158,10 +146,10 @@ tag = function () {
 			"END TRANSACTION"
 		].join(";\n");
 		
-		debugMsg("TAG - " + statement);
+		debugMsg("DB/TAG - explode - SQL: " + statement);
 		db.nonQuery(statement, handler);
 	};
-	
+
 	return self;
 }();
 
