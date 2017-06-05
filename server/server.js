@@ -9,6 +9,7 @@ var $fs = require('fs');
 var browser = require('./tools/browser').browser;
 var file = require('./ajax/file');
 var logicMedia = require('./logic/media');
+var debugMsg = require('./utils/messager').debugMsg;
 
 // modules
 var library = require('./ajax/library');
