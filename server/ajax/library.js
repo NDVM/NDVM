@@ -2,17 +2,18 @@
 // Library Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, console, process, exports */
-var	$path = require('path'),
-		file = require('./file'),
-		envelope = require('./envelope').envelope,
-		debugMsg = require('../utils/messager').debugMsg,
-		library = require('../logic/library').library;
+var $path = require('path');
+var file = require('./file');
+var envelope = require('./envelope').envelope;
+var debugMsg = require('../utils/messager').debugMsg;
+var library = require('../logic/library').library;
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"
 // - query: query object
 // - res: response object
 function run(endpoint, query, res) {
+	debugMsg("AJAX/LIBRARY - Requested '"+ endpoint +"'");
 	// executing command
 	switch (endpoint) {
 	case '/lib/getall':

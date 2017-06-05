@@ -2,17 +2,19 @@
 // Media Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var	envelope = require('./envelope').envelope,
-		library = require('../logic/library').library,
-		media = require('../logic/media').media,
-		thumbs = require('../logic/thumbs').thumbs,
-		server = require('../server.js');
+var envelope = require('./envelope').envelope;
+var library = require('../logic/library').library;
+var media = require('../logic/media').media;
+var thumbs = require('../logic/thumbs').thumbs;
+var debugMsg = require('../utils/messager').debugMsg;
+var server = require('../server.js');
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"
 // - query: query object
 // - res: response object
 function run(endpoint, query, res) {
+	debugMsg("AJAX/MEDIA - Requested '"+ endpoint +"'");
 	// executing command
 	switch (endpoint) {
 	case '/media/get':

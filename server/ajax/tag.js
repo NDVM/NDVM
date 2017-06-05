@@ -2,15 +2,17 @@
 // Tag Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var	envelope = require('./envelope').envelope,
-		library = require('../logic/library').library,
-		tag = require('../db/tag').tag;
+var envelope = require('./envelope').envelope;
+var library = require('../logic/library').library;
+var tag = require('../db/tag').tag;
+var debugMsg = require('../utils/messager').debugMsg;
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"
 // - query: query object
 // - res: response object
 function run(endpoint, query, res) {
+	debugMsg("AJAX/TAG - Requested '"+ endpoint +"'");
 	// executing command
 	switch (endpoint) {
 	case '/tag/add':

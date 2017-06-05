@@ -2,15 +2,17 @@
 // System Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var	envelope = require('./envelope').envelope,
-		processes = require('../logic/processes').processes,
-		system = require('../utils/system').system;
+var envelope = require('./envelope').envelope;
+var processes = require('../logic/processes').processes;
+var system = require('../utils/system').system;
+var debugMsg = require('../utils/messager').debugMsg;
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"
 // - query: query object
 // - res: response object
 function run(endpoint, query, res) {
+	debugMsg("AJAX/SYSTEM - Requested '"+ endpoint +"'");
 	// executing command
 	switch (endpoint) {
 	case '/sys/dirlist':

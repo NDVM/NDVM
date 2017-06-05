@@ -2,29 +2,29 @@
 // NDVM Application Server
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, process, console */
-var	$http = require('http'),
-		$url = require('url'),
-		$path = require('path'),
-		$fs = require('fs'),
-		browser = require('./tools/browser').browser,
-		file = require('./ajax/file'),
-		logicMedia = require('./logic/media'),
+var $http = require('http');
+var $url = require('url');
+var $path = require('path');
+var $fs = require('fs');
+var browser = require('./tools/browser').browser;
+var file = require('./ajax/file');
+var logicMedia = require('./logic/media');
 
-		// modules
-		library = require('./ajax/library'),
-		media = require('./ajax/media'),
-		tag = require('./ajax/tag'),
-		root = require('./ajax/root'),
-		system = require('./ajax/system'),
+// modules
+var library = require('./ajax/library');
+var media = require('./ajax/media');
+var tag = require('./ajax/tag');
+var root = require('./ajax/root');
+var system = require('./ajax/system');
 
-		// environmental variables
-		PORT = 7519,			// node.js port
-		DEBUG = false,			// debug (true/false)
-		BROWSER = true,			// launch browser (true/false)
-		HTML5PLAYER = false,	// html 5 player (true/false)
+// environmental variables
+var PORT = 7519;         // node.js port
+var DEBUG = false;       // debug (true/false)
+var BROWSER = true;      // launch browser (true/false)
+var HTML5PLAYER = false; // html 5 player (true/false)
 
-		// server object
-		server;
+// server object
+var server;
 
 // processing command line arguments
 (function () {
@@ -82,6 +82,7 @@ server = $http.createServer(function (req, res) {
 		break;
 
 	case 'video-stream':
+		debugMsg("SERVER.js - Requested '"+ endpoint +"'");
 		(function () {
 			var mediaid = req.url.split('?')[1];
 
