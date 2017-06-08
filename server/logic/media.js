@@ -4,12 +4,12 @@
 // Interface for adding library root paths and ingesting their content
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var		vlc = require('../tools/vlc').vlc,
-		entity = require('../db/media').media,
-		debugMsg = require('../utils/messager').debugMsg,
-		server = require('../server.js'),
+const vlc = require('../tools/vlc').vlc;
+const entity = require('../db/media').media;
+const debugMsg = require('../utils/messager').debugMsg;
+const server = require('../server.js');
 
-media = function (mediaid) {
+var media = function (mediaid) {
 	var self = {
 		// queries media information
 		get: function (handler) {

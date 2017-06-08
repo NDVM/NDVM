@@ -2,12 +2,12 @@
 // ffmpeg tool
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var	$path = require('path'),
-	tool = require('../tools/tool').tool,
-	ffprobeCollectData = require('./ffprobe').ffprobeCollectData,
+const $path = require('path');
+const tool = require('../tools/tool').tool;
+const ffprobeCollectData = require('./ffprobe').ffprobeCollectData;
 
 
-ffmpeg = function () {
+var ffmpeg = function () {
 	self = Object.create(tool, {
 		executable: {value: 'ffmpeg'},
 		stderr: {value: true}

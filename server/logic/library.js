@@ -4,18 +4,18 @@
 // Interface for adding library root paths and ingesting their content
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var	$path = require('path'),
-		root = require('../logic/root').root,
-		db = require('../db/db').db,
-		entity = require('../db/library').library,
-		tag = require('../db/tag').tag,
-		processes = require('../logic/processes').processes,
-		system = require('../utils/system').system,
-		cygpath = require('../tools/cygpath').cygpath,
-		sqlite = require('../tools/sqlite').sqlite,
-		walker = require('../utils/walker').walker,
+const $path = require('path');
+const root = require('../logic/root').root;
+const db = require('../db/db').db;
+const entity = require('../db/library').library;
+const tag = require('../db/tag').tag;
+const processes = require('../logic/processes').processes;
+const system = require('../utils/system').system;
+const cygpath = require('../tools/cygpath').cygpath;
+const sqlite = require('../tools/sqlite').sqlite;
+const walker = require('../utils/walker').walker;
 
-library = function () {
+var library = function () {
 	var json, self;
 	
 	// splits properties along characters

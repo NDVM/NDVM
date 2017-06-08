@@ -2,10 +2,10 @@
 // Tag Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var envelope = require('./envelope').envelope;
-var library = require('../logic/library').library;
-var tag = require('../db/tag').tag;
-var debugMsg = require('../utils/messager').debugMsg;
+const envelope = require('./envelope').envelope;
+const library = require('../logic/library').library;
+const tag = require('../db/tag').tag;
+const debugMsg = require('../utils/messager').debugMsg;
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"

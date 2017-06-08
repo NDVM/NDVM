@@ -4,14 +4,14 @@
 // Ingests metadata from media files.
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, process, console */
-var	library = require('../db/library').library,
-		entity = require('../db/root').root,
-		walker = require('../utils/walker').walker,
-		processes = require('../logic/processes').processes,
-		debugMsg = require('../utils/messager').debugMsg,
+const library = require('../db/library').library;
+const entity = require('../db/root').root;
+const walker = require('../utils/walker').walker;
+const processes = require('../logic/processes').processes;
+const debugMsg = require('../utils/messager').debugMsg;
 		
 // - path: root path
-root = function (path) {
+var root = function (path) {
 	var self = {
 		// scans the library and returns metadata for relevant files
 		scan: function (handler) {

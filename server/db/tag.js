@@ -2,11 +2,11 @@
 // Tag Entity
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var $media = require('../db/media');
-var db = require('../db/db').db;
-var entity = require('../db/entity').entity;
-var clause = require('../db/entity').clause;
-var debugMsg = require('../utils/messager').debugMsg;
+const $media = require('../db/media');
+const db = require('../db/db').db;
+const entity = require('../db/entity').entity;
+const clause = require('../db/entity').clause;
+const debugMsg = require('../utils/messager').debugMsg;
 
 var tag = function () {
 	var base = Object.create(entity, {kind: {value: 'tags'}});

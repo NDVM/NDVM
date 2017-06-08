@@ -4,8 +4,8 @@
 // Base class for table records
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var db = require('../db/db').db;
-var debugMsg = require('../utils/messager').debugMsg;
+const db = require('../db/db').db;
+const debugMsg = require('../utils/messager').debugMsg;
 
 // escapes quotes in SQL statements by duplicating them
 var quotes = function (text) { return text.replace(/'/g, "''"); };

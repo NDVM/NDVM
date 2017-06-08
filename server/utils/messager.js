@@ -4,9 +4,10 @@
 //
 // Provide an organized way to send message to system shell.
 ////////////////////////////////////////////////////////////////////////////////
-var	os = require('os').platform,
-	server = require('../server.js'),
-	msg;
+const os = require('os').platform;
+const server = require('../server.js');
+
+var msg;
 
 // check the OS which should receive a colored message.
 var colorMsg = {

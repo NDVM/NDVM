@@ -4,13 +4,13 @@
 // System operations
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var	$os = require('os'),
-	$fs = require('fs'),
-	walker = require('./walker').walker,
-	flock = require('flock/flock-0.1.3').flock,
-	debugMsg = require('./messager').debugMsg,
+const $os = require('os');
+const $fs = require('fs');
+const walker = require('./walker').walker;
+const flock = require('flock/flock-0.1.3').flock;
+const debugMsg = require('./messager').debugMsg;
 
-os = $os.type().split(/[^A-Za-z0-9]+/)[0].toLowerCase(),
+var os = $os.type().split(/[^A-Za-z0-9]+/)[0].toLowerCase(),
 		
 system = {
 	// os type

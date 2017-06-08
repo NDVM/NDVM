@@ -4,11 +4,11 @@
 // Generates thumbnail images for video files
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var	$fs = require('fs'),
-		$path = require('path'),
-		ffmpeg = require('../tools/ffmpeg').ffmpeg,
+const $fs = require('fs');
+const $path = require('path');
+const ffmpeg = require('../tools/ffmpeg').ffmpeg;
 
-thumb = function () {
+var thumb = function () {
 	var self,
 			cachePath = '../data/cache/';
 

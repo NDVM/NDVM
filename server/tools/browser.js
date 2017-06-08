@@ -2,10 +2,10 @@
 // Web Browser
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var	system = require('../utils/system').system,
-		tool = require('../tools/tool').tool,
+const system = require('../utils/system').system;
+const tool = require('../tools/tool').tool;
 
-browser = function () {
+var browser = function () {
 	var executable = {
 		'linux': 'xdg-open',
 		'freebsd': 'xdg-open',

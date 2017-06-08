@@ -7,16 +7,16 @@
 // restrictions to the callbacks.
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, process, console */
-var	$fs = require('fs'),
-	debugMsg = require('./messager').debugMsg,
-	exec = require('child_process').execSync,
-	ffprobeCollectData = require('../tools/ffprobe').ffprobeCollectData,
+const $fs = require('fs');
+const debugMsg = require('./messager').debugMsg;
+const exec = require('child_process').execSync;
+const ffprobeCollectData = require('../tools/ffprobe').ffprobeCollectData;
 
 // - dirHandler: called for each directory
 // - fileHandler: called for each file
 // - options:
 //   - filter: regex for filtering file names
-walker = function (dirHandler, fileHandler, options) {
+var walker = function (dirHandler, fileHandler, options) {
 	// defaults
 	var formats_extensions = '^.+\\.(wmv|avi|mov|mp4|mkv|webm|flv|ogv|mpeg|mpg|3gp|divx|rmvb|asf)$';
 	dirHandler = dirHandler || function () { };

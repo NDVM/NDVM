@@ -2,9 +2,9 @@
 // Media Entity
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var entity = require('../db/entity').entity;
-var db = require('../db/db').db;
-var debugMsg = require('../utils/messager').debugMsg;
+const entity = require('../db/entity').entity;
+const db = require('../db/db').db;
+const debugMsg = require('../utils/messager').debugMsg;
 
 // constructs a where clause that will retrieve
 // media records filtered by tags

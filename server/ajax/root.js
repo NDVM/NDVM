@@ -2,9 +2,9 @@
 // Root Path Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var envelope = require('./envelope').envelope;
-var library = require('../logic/library').library;
-var debugMsg = require('../utils/messager').debugMsg;
+const envelope = require('./envelope').envelope;
+const library = require('../logic/library').library;
+const debugMsg = require('../utils/messager').debugMsg;
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"

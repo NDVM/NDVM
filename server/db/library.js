@@ -2,11 +2,11 @@
 // Video Library - Data Model
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var $path = require('path');
-var $media = require('../db/media');
-var quotes = require('../db/entity').quotes;
-var db = require('../db/db').db;
-var debugMsg = require('../utils/messager').debugMsg;
+const $path = require('path');
+const $media = require('../db/media');
+const quotes = require('../db/entity').quotes;
+const db = require('../db/db').db;
+const debugMsg = require('../utils/messager').debugMsg;
 
 var library = function () {
 	var self = {

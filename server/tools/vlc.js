@@ -2,9 +2,9 @@
 // VLC Video Playback Tool
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var	tool = require('./tool').tool,
+const tool = require('./tool').tool;
 
-vlc = function () {
+var vlc = function () {
 	var self = Object.create(tool, {executable: {value: 'vlc'}});
 			
 	self.exec = function (path, handler) {

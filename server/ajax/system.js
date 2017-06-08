@@ -2,10 +2,10 @@
 // System Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var envelope = require('./envelope').envelope;
-var processes = require('../logic/processes').processes;
-var system = require('../utils/system').system;
-var debugMsg = require('../utils/messager').debugMsg;
+const envelope = require('./envelope').envelope;
+const processes = require('../logic/processes').processes;
+const system = require('../utils/system').system;
+const debugMsg = require('../utils/messager').debugMsg;
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"

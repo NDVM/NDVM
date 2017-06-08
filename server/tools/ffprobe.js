@@ -5,8 +5,8 @@
 // and also to collect information about the video.
 ////////////////////////////////////////////////////////////////////////////////
 
-var $path = require('path');
-var execSync = require('child_process').execSync;
+const $path = require('path');
+const execSync = require('child_process').execSync;
 
 
 var ffprobe = function ffprobeCollectData(path) {

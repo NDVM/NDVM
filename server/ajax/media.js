@@ -2,12 +2,12 @@
 // Media Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var envelope = require('./envelope').envelope;
-var library = require('../logic/library').library;
-var media = require('../logic/media').media;
-var thumbs = require('../logic/thumbs').thumbs;
-var debugMsg = require('../utils/messager').debugMsg;
-var server = require('../server.js');
+const envelope = require('./envelope').envelope;
+const library = require('../logic/library').library;
+const media = require('../logic/media').media;
+const thumbs = require('../logic/thumbs').thumbs;
+const debugMsg = require('../utils/messager').debugMsg;
+const server = require('../server.js');
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"

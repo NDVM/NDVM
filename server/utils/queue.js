@@ -5,10 +5,10 @@
 // priorities changed while the queue is being processed.
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var
+
 
 // - handler: function to call on each element
-queue = function (handler) {
+var queue = function (handler) {
 	var stopped = true,		// whether processing is stopped
 			first = null,			// pointer to first element in the queue
 			lookup = {},			// lookup table value -> queue link

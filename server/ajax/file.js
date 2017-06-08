@@ -2,19 +2,19 @@
 // Library Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var $path = require('path'),
-		$fs = require('fs'),
+const $path = require('path');
+const $fs = require('fs');
 
 // adds the contents of a file to the response
 // sychronously
-add = function (filePath, res) {
+var add = function (filePath, res) {
 	if ($fs.existsSync(filePath)) {
 		res.write($fs.readFileSync(filePath), "binary");
 	}
-},
+};
 
 // fetches one file from disk as response
-fetch = function (filePath, res, debug) {
+var fetch = function (filePath, res, debug) {
 	$fs.exists(filePath, function (exists) {
 		if (!exists) {
 			res.writeHead(404, {"Content-Type": "text/plain"});

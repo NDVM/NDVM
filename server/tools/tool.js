@@ -4,9 +4,9 @@
 // Base class for command line execution
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, Buffer, console */
-var $child_process = require('child_process');
-var system = require('../utils/system').system;
-var debugMsg = require('../utils/messager').debugMsg;
+const $child_process = require('child_process');
+const system = require('../utils/system').system;
+const debugMsg = require('../utils/messager').debugMsg;
 
 var tool = {
 	// line break string depending on OS

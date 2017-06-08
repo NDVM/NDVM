@@ -2,21 +2,21 @@
 // NDVM Application Server
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, process, console */
-var $http = require('http');
-var $url = require('url');
-var $path = require('path');
-var $fs = require('fs');
-var browser = require('./tools/browser').browser;
-var file = require('./ajax/file');
-var logicMedia = require('./logic/media');
-var debugMsg = require('./utils/messager').debugMsg;
+const $http = require('http');
+const $url = require('url');
+const $path = require('path');
+const $fs = require('fs');
+const browser = require('./tools/browser').browser;
+const file = require('./ajax/file');
+const logicMedia = require('./logic/media');
+const debugMsg = require('./utils/messager').debugMsg;
 
 // modules
-var library = require('./ajax/library');
-var media = require('./ajax/media');
-var tag = require('./ajax/tag');
-var root = require('./ajax/root');
-var system = require('./ajax/system');
+const library = require('./ajax/library');
+const media = require('./ajax/media');
+const tag = require('./ajax/tag');
+const root = require('./ajax/root');
+const system = require('./ajax/system');
 
 // environmental variables
 var PORT = 7519;         // node.js port
@@ -29,8 +29,9 @@ var server;
 
 // processing command line arguments
 (function () {
-	var argv = process.argv,
-			i;
+	var argv = process.argv;
+	var i;
+
 	for (i = 0; i < argv.length; i++) {
 		switch (argv[i]) {
 		case 'debug':

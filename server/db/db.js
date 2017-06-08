@@ -2,8 +2,8 @@
 // Database
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var sqlite = require('../tools/sqlite').sqlite;
-var debugMsg = require('../utils/messager').debugMsg;
+const sqlite = require('../tools/sqlite').sqlite;
+const debugMsg = require('../utils/messager').debugMsg;
 
 var db = function () {
 	var self,

@@ -5,9 +5,9 @@
 // format.
 ////////////////////////////////////////////////////////////////////////////////
 /*global exports */
-var 
 
-parser = {
+
+var parser = {
 	rowSeparator: null,			// separates rows - if null, parsed text is one row
 	fieldSeparator: '',			// separates fields  within row
 	keySeparator: '',				// separates value from key

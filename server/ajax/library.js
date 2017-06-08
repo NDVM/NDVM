@@ -2,11 +2,11 @@
 // Library Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, console, process, exports */
-var $path = require('path');
-var file = require('./file');
-var envelope = require('./envelope').envelope;
-var debugMsg = require('../utils/messager').debugMsg;
-var library = require('../logic/library').library;
+const $path = require('path');
+const file = require('./file');
+const envelope = require('./envelope').envelope;
+const debugMsg = require('../utils/messager').debugMsg;
+const library = require('../logic/library').library;
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"

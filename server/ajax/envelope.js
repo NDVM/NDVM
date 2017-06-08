@@ -4,7 +4,7 @@
 // Takes care of exception handling and constructing JSON response.
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, process, console */
-var	gzip = require('../tools/gzip').gzip,
+const gzip = require('../tools/gzip').gzip;
 
 // envelopes a request
 // - res: response object
@@ -12,7 +12,7 @@ var	gzip = require('../tools/gzip').gzip,
 // - handler: enveloped function
 //   when sync, should return the data
 //   when async, should call the function returned
-envelope = function (res, async, handler) {
+var envelope = function (res, async, handler) {
 	// final ok handler
 	function ok(data) {
 		res.writeHead(200, {

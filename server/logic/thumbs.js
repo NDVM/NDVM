@@ -4,12 +4,12 @@
 // Manages cached thumbnails
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var	$crypto = require('crypto'),
-		entity = require('../db/media').media,
-		processes = require('../logic/processes').processes,
-		queue = require('../utils/queue').queue,
+const $crypto = require('crypto');
+const entity = require('../db/media').media;
+const processes = require('../logic/processes').processes;
+const queue = require('../utils/queue').queue;
 		
-thumbs = function () {	
+var thumbs = function () {
 	var media = entity(),
 	
 	self = {

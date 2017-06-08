@@ -5,14 +5,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, setTimeout, console */
 
-var	$fs = require('fs'),
-		$path = require('path'),
-		tool = require('./tool').tool,
-		parser = require('../utils/parser').parser,
-		tempFile = 'temp.sql',
-		debugMsg = require('../utils/messager').debugMsg,
+const $fs = require('fs');
+const $path = require('path');
+const tool = require('./tool').tool;
+const parser = require('../utils/parser').parser;
+const tempFile = 'temp.sql';
+const debugMsg = require('../utils/messager').debugMsg;
 
-sqlite = function () {
+var sqlite = function () {
 	var db = 'default',
 			path = '../data/db/',
 

@@ -5,17 +5,17 @@
 // snapshot extraction, etc. together.
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var	thumb = require('../logic/thumb').thumb,
-		library = require('../db/library').library,
-		media = require('../db/media').media,
-		queue = require('../utils/queue').queue,
-		ffmpeg = require('../tools/ffmpeg').ffmpeg,
-		debugMsg = require('../utils/messager').debugMsg,
+const thumb = require('../logic/thumb').thumb;
+const library = require('../db/library').library;
+const media = require('../db/media').media;
+const queue = require('../utils/queue').queue;
+const ffmpeg = require('../tools/ffmpeg').ffmpeg;
+const debugMsg = require('../utils/messager').debugMsg;
 
-processes,
+var processes;
 
 // gets progress for one specific process
-poll = function (name, handler) {
+var poll = function (name, handler) {
 	processes[name].flush(function (data) {
 		handler({
 			progress: processes[name].progress(),
