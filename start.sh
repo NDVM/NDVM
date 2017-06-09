@@ -36,6 +36,7 @@ nodejs_debug=false
 ndvm_debug=false
 node_command="node"
 no_browser=false
+electron=false
 
 startsh_args="$@"
 
@@ -50,11 +51,19 @@ function execndvm()
 
 		## messages
 		echo -e "$ok_msg Executing NDVM ..."
-		echo -e "$ok_msg Node.JS return:"
+		if [[ $electron == true ]]; then
+			echo -e "$ok_msg Electron return:"
+		else
+			echo -e "$ok_msg Node.JS return:"
+		fi
 		echo
 
-		node_args="server.js"
-		if [[ $nodejs_debug == true ]]; then
+		if [[ $electron == true ]]; then
+			node_args="electron.js"
+		else
+			node_args="server.js"
+		fi
+		if [[ $nodejs_debug == true ]]&&[[ $electron == false ]]; then
 			node_args="debug $node_args"
 		fi
 		if [[ $ndvm_debug == true ]]; then
@@ -65,7 +74,11 @@ function execndvm()
 		fi
 
 		## executing NDVM
-		$node_command $node_args
+		if [[ $electron == true ]]; then
+			electron $node_args
+		else
+			$node_command $node_args
+		fi
 
 	else
 		echo -e "$error_msg file: ""$bash_und_yellow""server/server.js""$bash_reset"" not found."
@@ -114,6 +127,17 @@ function checknodeversion()
 	else
 		echo -e "$info_msg Node.JS version: $node_version"
 	fi
+}
+
+#####
+### checkelectronversion(): check if nodejs it too old
+#####
+function checkelectronversion()
+{
+	checknvm
+	electron_version=$(electron "--version")
+
+	echo -e "$info_msg Electron version: $electron_version"
 }
 
 
@@ -346,6 +370,7 @@ function display_help()
 	echo "   -b, --no-browser               do not open browser on NVM start"
 	echo "   -i, --ignore-dependence-check  do not check for dependences"
 	echo "   -t, --ignore-terminal-check    do not check for terminal"
+	echo "   -e, --electron                 use electron framework"
 	echo "   -n, --nodejs-debug             activate the Node.JS debug"
 	echo "   -v, --version                  output version information and exit"
 	echo "   -h, --help                     display this help and exit"
@@ -364,7 +389,7 @@ function arguments_info()
 		echo -e "$info_msg \"Ignore Dependence Check\" enabled";
 	fi
 
-	if [[ $nodejs_debug == true ]]; then
+	if [[ $nodejs_debug == true ]]&&[[ $electron == false ]]; then
 		echo -e "$info_msg \"Node.JS Debug\" enabled"
 	fi
 
@@ -372,8 +397,12 @@ function arguments_info()
 		echo -e "$info_msg \"NDVM Debug\" enabled"
 	fi
 	
-	if [[ $no_browser == true ]]; then
+	if [[ $no_browser == true ]]&&[[ $electron == false ]]; then
 		echo -e "$info_msg \"No Browser\" enabled"
+	fi
+
+	if [[ $electron == true ]]; then
+		echo -e "$info_msg \"Electron\" enabled"
 	fi
 }
 
@@ -450,17 +479,27 @@ function start()
 		checkdependence "node_modules/jquery/jquery.js"
 
 		## check if all dependences are installed
-		checknode
+		if [[ $electron == false ]]; then
+			checknode
+		fi
 		checkapp true "ffmpeg"	"ffmpeg"
 		checkapp true "sqlite3" 	"sqlite3"
 		checkapp true "xdg-open"	"xdg-utils"
 		checkapp true "gzip"	"gzip"
 
+		if [[ $electron == true ]]; then
+			checkapp true "electron"
+		fi
+
 		commandsuggestion
 
 		if [[ $dependence_error == false ]]; then
 			## check nodejs version
-			checknodeversion
+			if [[ $electron == false ]]; then
+				checknodeversion
+			else
+				checkelectronversion
+			fi
 		else
 			exit 1
 		fi
@@ -490,6 +529,9 @@ while [[ "$1" != "" ]]; do
 		-t|--ignore-terminal-check)
 			ignore_terminal_check=true
 			;;
+		-e|--electron)
+			electron=true
+			;;
 		-n|--nodejs-debug)
 			nodejs_debug=true
 			;;
@@ -500,7 +542,7 @@ while [[ "$1" != "" ]]; do
 			no_browser=true
 			;;
 		-[a-z]*)
-			while getopts ":hvindb" opt "$1"; do
+			while getopts ":hvitendb" opt "$1"; do
 				case $opt in
 					h)
 						display_help
@@ -513,6 +555,9 @@ while [[ "$1" != "" ]]; do
 						;;
 					t)
 						ignore_terminal_check=true
+						;;
+					e)
+						electron=true
 						;;
 					n)
 						nodejs_debug=true

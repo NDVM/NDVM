@@ -29,14 +29,14 @@ var debug = function debugMsg(msg, debugmsg, stdout) {
 	var debugInfo = {
 		true: '\x1b[1;93m[DEBUG]\x1b[0m'
 	}[colorMsg] || '[DEBUG]'
-	
-	if (debugmsg === true){
+
+	if ( debugmsg ){
 		msg = debugInfo + " " + msg
 	}
 
 	// send message if debug is enabled
-	if ( server.DEBUG === true ) {
-		if ( stdout === true ) {
+	if ( server.debug ) {
+		if ( stdout ) {
 			process.stdout.write( msg );
 		} else {
 			console.log( msg );

@@ -19,10 +19,15 @@ const root = require('./ajax/root');
 const system = require('./ajax/system');
 
 // environmental variables
-var PORT = 7519;         // node.js port
-var DEBUG = false;       // debug (true/false)
-var BROWSER = true;      // launch browser (true/false)
-var HTML5PLAYER = false; // html 5 player (true/false)
+var port = 7519;         // node.js port (0 = random)
+var debug = false;       // debug (true/false)
+var runBrowser = true;   // launch browser (true/false)
+var html5Player = false; // html5 player (true/false)
+
+
+// electron framework
+var electron = process.versions['electron'] ? true : false;
+if (electron) {	runBrowser = false; }
 
 // server object
 var server;
@@ -35,31 +40,27 @@ var server;
 	for (i = 0; i < argv.length; i++) {
 		switch (argv[i]) {
 		case 'debug':
-			DEBUG = true;
+			debug = true;
 			console.log("DEBUG enabled");
 			break;
 		case 'port':
-			PORT = parseInt(argv[i + 1], 10) || 7519;
-			console.log("PORT set to " + PORT);
+			port = parseInt(argv[i + 1], 10) || 7519;
+			console.log("PORT set to " + port);
 			break;
 		case 'nobrowser':
-			BROWSER = false;
+			runBrowser = false;
 			console.log("'No Browser' feature enabled");
 			break;
 		}
 	}
 }());
 
-// export variables
-module.exports.DEBUG = DEBUG;
-module.exports.HTML5PLAYER = HTML5PLAYER;
-
 // creating server object
 server = $http.createServer(function (req, res) {
-	var	url = $url.parse(req.url, true),
-			endpoint = url.pathname,
-			query = url.query,
-			ok;
+	var url = $url.parse(req.url, true);
+	var endpoint = url.pathname;
+	var query = url.query;
+	var ok;
 
   // executing command
 	switch (endpoint.split('/')[1]) {
@@ -119,7 +120,7 @@ server = $http.createServer(function (req, res) {
 	default:
 		// acting as static file server
 		(function () {
-			var	filePath;
+			var filePath;
 
 			switch (endpoint.split('/')[1]) {
 			case 'cache':
@@ -130,18 +131,25 @@ server = $http.createServer(function (req, res) {
 				break;
 			}
 
-			file.fetch(filePath, res, DEBUG);
+			file.fetch(filePath, res, debug);
 		}());
 	}
 });
 
-var url = 'http://127.0.0.1:' + PORT;
-server.listen(PORT, '0.0.0.0', function () {
+server.listen(port, '0.0.0.0', function () {
+	port = server.address().port;
+
+	var url = 'http://127.0.0.1:' + port;
 	console.log("Server running at " + url);
-	if ( BROWSER === true ) {
+
+	if ( runBrowser ) {
 		browser.exec(url, function () {
 			console.log("Browser started.");
 		});
 	}
 });
 
+// export variables
+module.exports.debug = debug;
+module.exports.html5Player = html5Player;
+module.exports.port = port;

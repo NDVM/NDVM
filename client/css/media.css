@@ -185,7 +185,7 @@ div.media.tile > div.medium.expanded {
 	position: relative;
 	display: inline-block; *display: inline; *zoom: 1;
 	height: 115px;
-	margin: 0 5px 5px 0;
+	margin: 0 3px 3px 0;
 	border: 5px solid transparent;
 	border-radius: 3px; -moz-border-radius: 3px;
 	vertical-align: top;
@@ -196,7 +196,7 @@ div.medium.thumb {
 }
 
 div.media.tile > div.medium.expanded {
-	width: 552px;
+	width: 548px;
 }
 
 div.medium.thumb > div {
@@ -215,7 +215,7 @@ div.medium.thumb > div.file {
 }
 
 div.media.tile > div.medium.expanded > div.file {
-	width: 552px;
+	width: 548px;
 }
 
 div.medium.thumb > div.overlay,

@@ -24,7 +24,7 @@ var media = function (mediaid) {
 				debugMsg("MEDIA - starting playback of file: " + path);
 
 				var browser_extensions = '^.+\\.(mp4|webm|ogv|3gp)$';
-				if ( path.match(browser_extensions) != null && server.HTML5PLAYER === true ) {
+				if ( path.match(browser_extensions) && server.html5Player ) {
 					var logicPath = path;
 					exports.logicPath = logicPath;
 				} else {				

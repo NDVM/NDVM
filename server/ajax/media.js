@@ -28,7 +28,7 @@ function run(endpoint, query, res) {
 	case '/media/html5':
 		// html5 player (true/false)
 		envelope(res, true, function (ok) {
-			ok(Boolean(server.HTML5PLAYER));
+			ok(server.html5Player);
 		});
 		break;
 
